@@ -1,17 +1,17 @@
 import router, { useRouter } from "next/router";
-import React, { useState, useEffect, useContext, ReactNode } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, ButtonToolbar, SelectPicker, Uploader } from "rsuite";
 import { AuthContext } from "../../context/AuthConext";
 import getPeriodos from "../../hooks/useGetPeriodos";
-import postSolicitud from "../../hooks/usePostSolicitud";
 import useValidation from "../../hooks/useValidation";
-import crearSolicitudValidation from "../../validations/crearSolicitudValidation";
 import { formatoRut, validarRut } from "../../validations/validarRut";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Loader } from "rsuite";
 import { ToastContainer, toast } from "react-toastify";
 import InputMask from "react-input-mask";
+import postSolicitudEspecial from "../../hooks/usePostSolicitudEspecial";
+import crearSolicitudValidationEspecial from "../../validations/crearSolicitudEspecialValidation";
 
 const STATE_INIT = {
   name_benef: "",
@@ -21,9 +21,15 @@ const STATE_INIT = {
   anio: "",
   comentario_funcionario: "",
   documentacion: [],
+  name_funcionario: "",
+  rut_funcionario: "",
+  email_funcionario: "",
+  fono_funcionario: "",
+  tipo_estamento: "",
+  comentario_dpe: "",
 };
 
-const CrearSolicitud = () => {
+const CrearSolicitudEspecial = () => {
   const { authState } = useContext(AuthContext);
   const [aniosObject, setAniosObject]: any = useState([]);
   const [isLoged, setIsLoged] = useState(false);
@@ -33,7 +39,7 @@ const CrearSolicitud = () => {
   const fetchSolicitudApi = async () => {
     MySwal.fire({
       title: "¿Enviar solicitud?",
-      text: "Una vez enviada puede editar esta desde la opción de mis solicitudes",
+      text: "Una vez enviada pasará a revisión cobranza",
       icon: "info",
       showCancelButton: true,
       cancelButtonText: "Cancelar",
@@ -43,10 +49,8 @@ const CrearSolicitud = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         setIsLoged(true);
-        //@ts-ignore
-        let user_id: string = authState.id;
 
-        const submitSolicitud = await postSolicitud(
+        const submitSolicitud = await postSolicitudEspecial(
           name_benef,
           formatoRut(rut_benef),
           carrera_benef,
@@ -54,7 +58,12 @@ const CrearSolicitud = () => {
           anio,
           comentario_funcionario,
           documentacion,
-          user_id
+          name_funcionario,
+          rut_funcionario,
+          email_funcionario,
+          fono_funcionario,
+          tipo_estamento,
+          comentario_dpe
         );
         if (submitSolicitud.mensaje === "Solicitud creada con exito") {
           router.push({ pathname: "/panel", query: { ok: true } });
@@ -64,6 +73,9 @@ const CrearSolicitud = () => {
         ) {
           setIsLoged(false);
           toast.error(submitSolicitud.mensaje);
+        } else if (submitSolicitud.errors) {
+          setIsLoged(false);
+          toast.error("El email del funcionario ya esta en el sistema");
         }
         // ingresar verificaciones de backend!!!
       }
@@ -84,7 +96,11 @@ const CrearSolicitud = () => {
   }, []);
 
   const { values, errores, handlerSubmit, handleChange, handlerBlur } =
-    useValidation(STATE_INIT, crearSolicitudValidation, fetchSolicitudApi);
+    useValidation(
+      STATE_INIT,
+      crearSolicitudValidationEspecial,
+      fetchSolicitudApi
+    );
   let {
     name_benef,
     rut_benef,
@@ -93,6 +109,12 @@ const CrearSolicitud = () => {
     anio,
     comentario_funcionario,
     documentacion,
+    name_funcionario,
+    email_funcionario,
+    fono_funcionario,
+    tipo_estamento,
+    comentario_dpe,
+    rut_funcionario,
   } = values;
 
   return (
@@ -101,11 +123,11 @@ const CrearSolicitud = () => {
         <Loader size="lg" backdrop content="Cargando..." vertical />
       ) : (
         <div className="card card-form shadow-1 mt-2 mb-4">
-          <div className="card-header">
-            <p className="text-center">Crear Solicitud</p>
-          </div>
-          <div className="card-body">
-            <form onSubmit={handlerSubmit}>
+          <form onSubmit={handlerSubmit}>
+            <div className="card-header">
+              <p className="text-center">Crear Solicitud</p>
+            </div>
+            <div className="card-body">
               <div className="row mb-3">
                 <div className="col-12 col-sm-8 mb-3">
                   <label className="form-label" htmlFor="form6Example1">
@@ -228,7 +250,122 @@ const CrearSolicitud = () => {
                 </div>
               </div>
               <ToastContainer />
+            </div>
+            <div className="card-header">
+              <p className="text-center">Datos de la solicitud (Funcionario)</p>
+            </div>
 
+            <div className="card-body">
+              <div className="row mb-3">
+                <div className="col-12 col-sm-8 mb-3">
+                  <label className="form-label" htmlFor="form6Example1">
+                    Nombre del Funcionario
+                  </label>
+                  <input
+                    placeholder="Ingrese nombre completo"
+                    type="text"
+                    id="name_funcionario"
+                    name="name_funcionario"
+                    className="form-control"
+                    onChange={handleChange}
+                    onBlur={handlerBlur}
+                  />
+                </div>
+                <div className="col-12 col-sm-4">
+                  <label className="form-label" htmlFor="form6Example2">
+                    Rut Funcionario
+                  </label>
+                  <input
+                    placeholder="12345678-9"
+                    type="text"
+                    id="rut_funcionario"
+                    name="rut_funcionario"
+                    className="form-control"
+                    onChange={handleChange}
+                    onBlur={handlerBlur}
+                  />
+                </div>
+              </div>
+              <div className="row mb-3">
+                <div className="col-12 col-sm-8 mb-3">
+                  <label className="form-label" htmlFor="form6Example1">
+                    Email Funcionario
+                  </label>
+                  <input
+                    placeholder="Ingrese nombre completo"
+                    type="text"
+                    id="email_funcionario"
+                    name="email_funcionario"
+                    className="form-control"
+                    onChange={handleChange}
+                    onBlur={handlerBlur}
+                  />
+                </div>
+                <div className="col-12 col-sm-4">
+                  <label className="form-label" htmlFor="form6Example2">
+                    Telefono Funcionario
+                  </label>
+                  <input
+                    placeholder="912345678"
+                    type="text"
+                    id="fono_funcionario"
+                    name="fono_funcionario"
+                    className="form-control"
+                    onChange={handleChange}
+                    onBlur={handlerBlur}
+                  />
+                </div>
+              </div>
+              <div className="row mb-3">
+                <div className="col-12 col-sm-12">
+                  <label className="form-label" htmlFor="form6Example1">
+                    Tipo Estamento
+                  </label>
+                  <SelectPicker
+                    searchable={false}
+                    size="md"
+                    placeholder="Seleccione tipo de estamento del funcionario"
+                    style={{ width: "100%" }}
+                    id="tipo_estamento"
+                    onChange={(e) => handleChange(e, "tipo_estamento")}
+                    onBlur={handlerBlur}
+                    data={[
+                      {
+                        label: "Academico",
+                        value: "academico",
+                      },
+                      {
+                        label: "No academico",
+                        value: "no academico",
+                      },
+                      {
+                        label: "Ex-funcionario",
+                        value: "ex funcionario",
+                      },
+                      {
+                        label: "Excepcion especial",
+                        value: "excepcion especial",
+                      },
+                    ]}
+                  />
+                </div>
+              </div>
+              <div className="row mb-3">
+                <div className="col-12 col-sm-12">
+                  <label className="form-label" htmlFor="form6Example1">
+                    Comentarios departamento de personas
+                  </label>
+                  <textarea
+                    placeholder="Agregue cualquier información adicional para cobranzas"
+                    onChange={handleChange}
+                    onBlur={handlerBlur}
+                    className="form-control"
+                    id="comentario_dpe"
+                    name="comentario_dpe"
+                    rows={4}
+                  ></textarea>
+                </div>
+              </div>
               <div className="row mb-3">
                 <div className="col-12 col-sm-12 text-center">
                   <ButtonToolbar>
@@ -244,12 +381,12 @@ const CrearSolicitud = () => {
                   </ButtonToolbar>
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       )}
     </div>
   );
 };
 
-export default CrearSolicitud;
+export default CrearSolicitudEspecial;

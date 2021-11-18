@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Login } from "../validations/loginValidation";
+import { toast } from "react-toastify";
 
 const useValidation = (stateInicial: any, validar: any, fn: any) => {
   const [values, setValues] = useState(stateInicial);
-  const [errores, setErrores] = useState<Login>({});
+  const [errores, setErrores] = useState<any>({});
   const [submitForm, setSubmitForm] = useState(false);
 
   useEffect(() => {
@@ -11,20 +11,31 @@ const useValidation = (stateInicial: any, validar: any, fn: any) => {
       const noErrores = Object.keys(errores).length === 0;
       if (noErrores) {
         fn();
+      } else {
+        let keys = Object.keys(errores);
+        for (const error of keys) {
+          toast.error(errores[error]);
+        }
       }
       setSubmitForm(false);
     }
   }, [errores, fn, submitForm]);
 
   //función que ejecuta conforme el usuario escribe
-  const handleChange = (e: any) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+  const handleChange = (e: any, name?: any) => {
+    console.log(name);
+    if (name) {
+      setValues({ ...values, [name]: e });
+    } else {
+      setValues({ ...values, [e.target.name]: e.target.value });
+    }
   };
 
   //función que se ejecuta cuando el usuario hace submit
   const handlerSubmit = (e: any) => {
     e.preventDefault();
     const ErroresValidacion = validar(values);
+
     setErrores(ErroresValidacion);
     setSubmitForm(true);
   };

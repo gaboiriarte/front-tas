@@ -3,52 +3,22 @@ import { Col, Message, Row } from "rsuite";
 
 const Admin = () => {
   return (
-    <Row className="show-grid m-4">
-      <Col xs={8}>
-        <div className="card text-center border rounded-3 border-primary shadow-1 m-3">
-          <div className="card-header p-0">
-            <Message showIcon type="info">
-              Gestión de roles
-            </Message>
+    <Row className="show-grid m-4 d-flex flex-lg-row flex-column justify-content-center">
+      <Col xs={24} lg={6} md={12}>
+        <div className="card text-center shadow-1 mt-2">
+          <div className="card-header">
+            <p>Administrar roles</p>
           </div>
           <div className="card-body">
-            <p className="card-text">Permite asignar roles</p>
+            <p className="card-text">Permite asignar roles a los usuarios</p>
 
-            <button type="button" className="btn btn-primary">
-              <h5>Ir</h5>
-            </button>
-          </div>
-        </div>
-      </Col>
-      <Col xs={8}>
-        <div className="card text-center border rounded-3 border-primary shadow-1 m-3">
-          <div className="card-header p-0">
-            <Message showIcon type="info">
-              Opcion 2
-            </Message>
-          </div>
-          <div className="card-body">
-            <p className="card-text">Weas pa la opcion 2</p>
-
-            <button type="button" className="btn btn-primary">
-              <h5>Ir</h5>
-            </button>
-          </div>
-        </div>
-      </Col>
-      <Col xs={8}>
-        <div className="card text-center border rounded-3 border-primary shadow-1 m-3">
-          <div className="card-header p-0">
-            <Message showIcon type="info">
-              Opcion 3
-            </Message>
-          </div>
-          <div className="card-body">
-            <p className="card-text">weas pa la opcion 3</p>
-
-            <button type="button" className="btn btn-primary">
-              <h5>ir</h5>
-            </button>
+            <a
+              type="button"
+              className="btn boton-panel mx-5"
+              href="panel/crear-solicitud"
+            >
+              ver
+            </a>
           </div>
         </div>
       </Col>

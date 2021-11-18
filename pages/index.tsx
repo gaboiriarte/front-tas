@@ -27,7 +27,9 @@ const Home = () => {
 
   function startGoogle() {
     var auth2: any;
+    //@ts-ignore
     gapi.load("auth2", function () {
+      //@ts-ignore
       auth2 = gapi.auth2.init({
         client_id:
           "920846582943-uh9c9joa2nqkmk6skvtg46553dcp6490.apps.googleusercontent.com",
@@ -45,6 +47,7 @@ const Home = () => {
     }
 
     function onSuccess(googleUser: any) {
+      setIsLoged(true);
       const token = googleUser.getAuthResponse().access_token;
       console.log(token);
       async function ingreso() {
@@ -64,17 +67,9 @@ const Home = () => {
     }
 
     function onFailure(error: any) {
-      notifyErrorGoogle();
+      console.log(error);
     }
   }
-
-  useEffect(() => {
-    if (gapi) {
-      startGoogle();
-    } else {
-      router.reload();
-    }
-  }, []);
 
   useEffect(() => {
     async function verificar() {
@@ -90,6 +85,15 @@ const Home = () => {
         if (firstTime) {
           setIsLoged(false);
           setFirstTime(false);
+          if (router.query.logout === "ok") {
+            notifyLogout();
+          }
+          //@ts-ignore
+          if (gapi) {
+            startGoogle();
+          } else {
+            router.reload();
+          }
         } else {
           setIsLoged(false);
           notifyIncorrect();
@@ -123,100 +127,93 @@ const Home = () => {
     useValidation(STATE_INIT, loginValidation, iniciarSesion);
   let { email, password } = values;
 
-  function checkErrors() {
-    console.log(errores);
-    if (Object.keys(errores).length > 0) {
-      notifyErrorForm();
-    }
-  }
-
   const notifyIncorrect = () =>
     toast.error("Usuario o contraseña incorrecto...");
   const notifyError = () =>
     toast.error("Error al conectar a la base de datos...");
-  const notifyErrorGoogle = () =>
-    toast.error("Error en la conexion con google...");
-  const notifyErrorForm = () => toast.error("debe ingresar un correo valido");
+  const notifyLogout = () => toast.success("Salió con exito");
 
   return (
     <>
-      <div className="login">
-        <div className="login__content">
-          <div className="login__imagenes">
-            <Image
-              src={logoUCN}
-              alt="Logo UCN"
-              width="100px"
-              height="100px"
-              className="login__imagen"
-            ></Image>
-            <Image
-              src="/Imagen-DGE.jpg"
-              alt="Logo DGE"
-              width="100px"
-              height="100px"
-              className="login__imagen"
-            ></Image>
-          </div>
-          {/* login form */}
-          <form
-            id="formulario"
-            className="login__form"
-            onSubmit={handlerSubmit}
-            noValidate={true}
-          >
-            <div className="login__inputs">
-              <div className="login__input">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="email@ucn.cl"
-                  value={email}
-                  onChange={handleChange}
-                  onBlur={handlerBlur}
-                />
-                <label htmlFor="username" className="fas fa-user" />
+      {isLoged ? (
+        <Loader size="lg" backdrop content="Cargando..." vertical />
+      ) : (
+        <>
+          <div className="login">
+            <div className="login__content">
+              <div className="login__imagenes">
+                <Image
+                  src={logoUCN}
+                  alt="Logo UCN"
+                  width="100px"
+                  height="100px"
+                  className="login__imagen"
+                ></Image>
+                <Image
+                  src="/Imagen-DGE.jpg"
+                  alt="Logo DGE"
+                  width="100px"
+                  height="100px"
+                  className="login__imagen"
+                ></Image>
               </div>
-              <div className="login__input">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="********"
-                  value={password}
-                  onChange={handleChange}
-                  onBlur={handlerBlur}
-                />
-                <label htmlFor="password" className="fas fa-key" />
+              {/* login form */}
+              <form
+                id="formulario"
+                className="login__form"
+                onSubmit={handlerSubmit}
+                noValidate={true}
+              >
+                <div className="login__inputs">
+                  <div className="login__input">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="email@ucn.cl"
+                      value={email}
+                      onChange={handleChange}
+                      onBlur={handlerBlur}
+                    />
+                    <label htmlFor="username" className="fas fa-user" />
+                  </div>
+                  <div className="login__input">
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      placeholder="********"
+                      value={password}
+                      onChange={handleChange}
+                      onBlur={handlerBlur}
+                    />
+                    <label htmlFor="password" className="fas fa-key" />
+                  </div>
+                </div>
+                <button type="submit" className="login__button">
+                  INGRESAR
+                </button>
+                <button
+                  type="button"
+                  onClick={startGoogle}
+                  id="customBtn"
+                  className="login__button"
+                >
+                  Ingreso funcionario
+                </button>
+              </form>
+
+              <div className="login__footer">
+                Si tiene problemas para ingresar al sistema contactar a
+                vra.dge@ucn.cl
               </div>
             </div>
-            <button
-              type="submit"
-              onClick={checkErrors}
-              className="login__button"
-            >
-              INGRESAR
-            </button>
-            <button
-              onClick={startGoogle}
-              id="customBtn"
-              className="login__button"
-            >
-              Ingreso funcionario
-            </button>
-          </form>
-
-          <div className="login__footer">
-            Si tiene problemas para ingresar al sistema contactar a
-            vra.dge@ucn.cl
           </div>
-        </div>
-      </div>
-      <div>
-        <ToastContainer />
-      </div>
-      {isLoged ? <Loader backdrop content="Cargando..." vertical /> : null}
+          <div>
+            <ToastContainer />
+          </div>
+        </>
+      )}
     </>
   );
 };

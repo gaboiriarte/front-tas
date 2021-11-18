@@ -4,10 +4,10 @@ import { AuthContext } from "../../context/AuthConext";
 import Checklogin from "../../hooks/useCheckLogin";
 import Header from "../../components/globals/Header";
 import { Loader } from "rsuite";
-import CrearSolicitud from "../../components/Forms/CrearSolicitud";
 import SideNav from "../../components/globals/SideNav";
+import CrearSolicitudEspecial from "../../components/Forms/CrearSolicitudEspecial";
 
-const Crear_Solicitud = () => {
+const CrearEspecial = () => {
   const router = useRouter();
   const { signIn, checkLogin } = useContext(AuthContext);
   const [isLoged, setIsLoged] = useState(true);
@@ -53,7 +53,7 @@ const Crear_Solicitud = () => {
               title={null}
               divider={null}
             ></Header>
-            <CrearSolicitud></CrearSolicitud>
+            <CrearSolicitudEspecial></CrearSolicitudEspecial>
           </SideNav>
         </>
       )}
@@ -61,4 +61,4 @@ const Crear_Solicitud = () => {
   );
 };
 
-export default Crear_Solicitud;
+export default CrearEspecial;

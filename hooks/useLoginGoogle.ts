@@ -1,5 +1,4 @@
 import { host } from "../host/host";
-import axios from "axios";
 const ingresoGoogle = async (access_token: string) => {
   const url = host + "/oauth/token";
   let error = "";
@@ -7,7 +6,7 @@ const ingresoGoogle = async (access_token: string) => {
     const res = await fetch(url, {
       method: "POST",
       body:
-        "grant_type=social&client_id=3&client_secret=5KnD8pcOrbcyBttl3uYz6mFNX8lge3BASh8ryMl4&provider=google&access_token=" +
+        "grant_type=social&client_id=1&client_secret=kg0zpPPWxTSqDen26zyc55dzrzTFTOfpU8wm5qpn&provider=google&access_token=" +
         access_token,
       headers: {
         Accept: "*/*",

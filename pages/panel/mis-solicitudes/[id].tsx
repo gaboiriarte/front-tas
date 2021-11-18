@@ -1,15 +1,15 @@
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../context/AuthConext";
-import Checklogin from "../../hooks/useCheckLogin";
-import Header from "../../components/globals/Header";
 import { Loader } from "rsuite";
-import CrearSolicitud from "../../components/Forms/CrearSolicitud";
-import SideNav from "../../components/globals/SideNav";
+import SideNav from "../../../components/globals/SideNav";
+import { AuthContext } from "../../../context/AuthConext";
+import CheckLogin from "../../../hooks/useCheckLogin";
+import Header from "../../../components/globals/Header";
+import DetallesSolicitudAuth from "../../../components/Show/MiSolicitud";
 
-const Crear_Solicitud = () => {
+const DetalleSolicitud = () => {
   const router = useRouter();
-  const { signIn, checkLogin } = useContext(AuthContext);
+  const { signIn, checkLogin, authState } = useContext(AuthContext);
   const [isLoged, setIsLoged] = useState(true);
   const [nameUser, setNameUser] = useState("");
   const [idUser, setIdUser] = useState("");
@@ -18,14 +18,10 @@ const Crear_Solicitud = () => {
 
   useEffect(() => {
     async function verificar() {
-      const verificacion = await Checklogin();
+      const verificacion = await CheckLogin();
       if (verificacion === "error conexion") {
         router.push("/");
       } else if (verificacion.rol) {
-        if (verificacion.rol === "administrador") {
-          router.push("/panel");
-          return;
-        }
         checkLogin(verificacion.rol);
         signIn(verificacion.rol, verificacion.id);
         setIdUser(verificacion.id);
@@ -50,10 +46,10 @@ const Crear_Solicitud = () => {
             <Header
               rolUser={rolUser}
               nameUser={nameUser}
-              title={null}
-              divider={null}
+              title={"Solicitud Nº " + router.query.id}
+              divider={"Detalles"}
             ></Header>
-            <CrearSolicitud></CrearSolicitud>
+            <DetallesSolicitudAuth id={router.query.id} />
           </SideNav>
         </>
       )}
@@ -61,4 +57,4 @@ const Crear_Solicitud = () => {
   );
 };
 
-export default Crear_Solicitud;
+export default DetalleSolicitud;

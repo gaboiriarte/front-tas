@@ -2,13 +2,12 @@ import "../styles/globals.less"; //importamos css globales y rsuite.
 import "../styles/login/login.less";
 import type { AppProps } from "next/app";
 import * as React from "react";
-
 import { useRouter } from "next/router";
-
 import { AuthProvider } from "../context/AuthConext";
-
 import Head from "next/head"; //head html
 import Script from "next/script";
+import { CustomProvider } from "rsuite";
+import esES from "rsuite/locales/es_ES";
 
 //falta la importacion del navbar
 
@@ -43,15 +42,18 @@ function MyApp({ Component, pageProps }: AppProps) {
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.6.0/mdb.min.js"
       ></Script>
 
-      <AuthProvider>
-        {router.route === "/" ? (
-          //en la ruta raiz va el login
-          <Component {...pageProps} />
-        ) : (
-          //incluir navbar (rutas protegidas por el login)
-          <Component {...pageProps} />
-        )}
-      </AuthProvider>
+      <CustomProvider locale={esES}>
+        <AuthProvider>
+          {router.route === "/" ? (
+            //en la ruta raiz va el login
+            <Component {...pageProps} />
+          ) : (
+            //incluir navbar (rutas protegidas por el login)
+
+            <Component {...pageProps} />
+          )}
+        </AuthProvider>
+      </CustomProvider>
     </>
   );
 }

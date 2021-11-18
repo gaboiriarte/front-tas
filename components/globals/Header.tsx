@@ -1,15 +1,44 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { Divider } from "rsuite";
+import Logout from "../../hooks/useLogout";
 
 const Header = ({ nameUser, rolUser, title, divider }: any) => {
+  const router = useRouter();
+  const cerrarSesion = async () => {
+    const peticion = await Logout();
+    console.log(peticion);
+    router.push({ pathname: "/", query: { logout: true } });
+  };
   return (
     <>
-      <div className="p-5 bg-light bg-portada">
+      <div className="p-5 bg-portada">
         <h5 className="mb-0 text-right">Bienvenido: {nameUser}</h5>
-        <h5 className="mb-3 text-right">Usted a ingresado como: {rolUser}</h5>
-        <button type="button" className="btn btn-danger btn-lg">
-          <h5>Cerrar Sesión</h5>
-        </button>
+        {rolUser === "funcionario" && (
+          <h5 className="mb-3 text-right">
+            Usted a ingresado como: Funcionario UCN
+          </h5>
+        )}
+        {rolUser === "administrador" && (
+          <h5 className="mb-3 text-right">
+            Usted a ingresado como: Administrador plataforma DGE
+          </h5>
+        )}
+        {rolUser === "dpe" && (
+          <h5 className="mb-3 text-right">
+            Usted a ingresado como: Encargado dirección de personas
+          </h5>
+        )}
+        {rolUser === "cobranza" && (
+          <h5 className="mb-3 text-right">
+            Usted a ingresado como: Encargado cobranza
+          </h5>
+        )}
+        {rolUser === "dge" && (
+          <h5 className="mb-3 text-right">
+            Usted a ingresado como: Encargado Dirección general estudiantil
+          </h5>
+        )}
       </div>
       <h2 className="mb-3 text-center">{title}</h2>
       <Divider>{divider}</Divider>

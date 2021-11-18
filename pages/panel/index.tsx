@@ -6,10 +6,13 @@ import Header from "../../components/globals/Header";
 import Admin from "../../components/panel-dashboard/Admin";
 import Funcionario from "../../components/panel-dashboard/Funcionario";
 import { Loader } from "rsuite";
+import { ToastContainer, toast } from "react-toastify";
+import SideNav from "../../components/globals/SideNav";
+import DireccionPersonas from "../../components/panel-dashboard/DireccionPersonas";
 
 const Dashboard = () => {
   const router = useRouter();
-  const { signIn, checkLogin } = useContext(AuthContext);
+  const { signIn, checkLogin, authState } = useContext(AuthContext);
   const [isLoged, setIsLoged] = useState(true);
   const [nameUser, setNameUser] = useState("");
   const [idUser, setIdUser] = useState("");
@@ -33,20 +36,32 @@ const Dashboard = () => {
         router.push("/");
       }
     }
+    if (router.query.ok) {
+      toast.success("Solicitud creada con exito");
+    }
     verificar();
   }, []);
 
   return (
     <>
-      <Header
-        rolUser={rolUser}
-        nameUser={nameUser}
-        title="Sistema de gestión beca hijo de funcionario"
-        divider="Menú"
-      ></Header>
-      {rolUser == "administrador" && <Admin />}
-      {rolUser == "funcionario" && <Funcionario />}
-      {isLoged ? <Loader backdrop content="Cargando..." vertical /> : null}
+      {isLoged ? (
+        <Loader size="lg" backdrop content="Cargando..." vertical />
+      ) : (
+        <>
+          <SideNav>
+            <Header
+              rolUser={rolUser}
+              nameUser={nameUser}
+              title="Sistema de gestión beca hijo de funcionario"
+              divider="Menú funcionario"
+            ></Header>
+            {rolUser == "administrador" && <Admin />}
+            {rolUser == "funcionario" && <Funcionario />}
+            {rolUser == "dpe" && <DireccionPersonas />}
+            <ToastContainer />
+          </SideNav>
+        </>
+      )}
     </>
   );
 };

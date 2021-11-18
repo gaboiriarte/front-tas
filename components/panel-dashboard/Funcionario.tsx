@@ -1,61 +1,80 @@
 import React from "react";
 import { Col, Message, Row } from "rsuite";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faClipboardList,
+  faFileUpload,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Funcionario = () => {
   return (
-    <Row className="show-grid m-4">
-      <Col xs={8}>
-        <div className="card text-center border rounded-3 border-primary shadow-1 m-3">
-          <div className="card-header p-0">
-            <Message showIcon type="info">
-              Crear Solicitud de Beca
-            </Message>
+    <Row className="show-grid m-4 d-flex flex-lg-row flex-column justify-content-center">
+      <Col xs={24} lg={6} md={12}>
+        <div className="card text-center shadow-1 mt-2">
+          <div className="card-header">
+            <FontAwesomeIcon
+              className="icono__panel"
+              icon={faFileUpload}
+              size="3x"
+            />
+            <p>Nueva Solicitud</p>
           </div>
           <div className="card-body">
             <p className="card-text">Permite ingresar una solicitud de beca</p>
 
             <a
               type="button"
-              className="btn btn-primary"
+              className="btn boton-panel mx-4"
               href="panel/crear-solicitud"
             >
-              <h5>Ir</h5>
+              Crear
             </a>
           </div>
         </div>
       </Col>
-      <Col xs={8}>
-        <div className="card text-center border rounded-3 border-primary shadow-1 m-3">
-          <div className="card-header p-0">
-            <Message showIcon type="info">
-              Revisar solicitud de beca
-            </Message>
+      <Col xs={24} lg={6} md={12}>
+        <div className="card text-center shadow-1 mt-2">
+          <div className="card-header">
+            <FontAwesomeIcon
+              className="icono__panel"
+              icon={faClipboardList}
+              size="3x"
+            />
+            <p>Revisar solicitud de beca</p>
           </div>
           <div className="card-body">
             <p className="card-text">
-              Permite verificar el estado de las solicitudes
+              Permite verificar el estado de mis solicitudes
             </p>
 
-            <button type="button" className="btn btn-primary">
-              <h5>Ir</h5>
-            </button>
+            <a
+              type="button"
+              className="btn boton-panel mx-4"
+              href="panel/mis-solicitudes"
+            >
+              ver
+            </a>
           </div>
         </div>
       </Col>
-      <Col xs={8}>
-        <div className="card text-center border rounded-3 border-primary shadow-1 m-3">
-          <div className="card-header p-0">
-            <Message showIcon type="info">
-              Mis Datos
-            </Message>
+      <Col xs={24} lg={6} md={12}>
+        <div className="card text-center shadow-1 mt-2">
+          <div className="card-header">
+            <FontAwesomeIcon className="icono__panel" icon={faUser} size="3x" />
+            <p>Mis Datos</p>
           </div>
           <div className="card-body">
             <p className="card-text">
-              Permite ver o editar mis datos de contacto
+              Permite ver y modificar mis datos personales
             </p>
 
-            <a type="button" className="btn btn-primary">
-              <h5>ir</h5>
+            <a
+              type="button"
+              className="btn boton-panel mx-4"
+              href="panel/crear-solicitud"
+            >
+              ver
             </a>
           </div>
         </div>

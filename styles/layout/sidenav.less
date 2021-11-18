@@ -1,0 +1,33 @@
+@import url("../globals.less");
+.sidenav__intranet {
+  background-color: @Pantone_540_C;
+  width: auto;
+  position: fixed;
+  z-index: 100;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}
+
+.sidenav__color,
+.rs-dropdown-menu,
+.rs-btn-subtle:focus {
+  background-color: @Pantone_7545_C !important;
+  a {
+    color: white !important;
+  }
+}
+
+.color-icon {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.icon-active {
+  color: white;
+}
+
+main {
+  margin-right: 2% !important;
+}
