@@ -5,7 +5,7 @@ import SideNav from "../../../components/globals/SideNav";
 import { AuthContext } from "../../../context/AuthConext";
 import CheckLogin from "../../../hooks/useCheckLogin";
 import Header from "../../../components/globals/Header";
-import DetallesSolicitudAuth from "../../../components/Show/MiSolicitud";
+import SolicitudToDPE from "../../../components/Show/SolicitudToDPE";
 
 const AprobarSolicitudDPE = () => {
   const router = useRouter();
@@ -49,7 +49,7 @@ const AprobarSolicitudDPE = () => {
               title={"Solicitud Nº " + router.query.id}
               divider={"Detalles"}
             ></Header>
-            <DetallesSolicitudAuth id={router.query.id} />
+            <SolicitudToDPE id={router.query.id} />
           </SideNav>
         </>
       )}

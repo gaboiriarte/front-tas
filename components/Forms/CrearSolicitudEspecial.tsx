@@ -373,7 +373,7 @@ const CrearSolicitudEspecial = () => {
                       Enviar
                     </Button>
                     <Button
-                      onClick={() => router.push("/panel")}
+                      onClick={() => router.back()}
                       className="px-5 mx-5 boton-cancelar"
                     >
                       Cancelar

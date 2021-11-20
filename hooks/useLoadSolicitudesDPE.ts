@@ -1,6 +1,7 @@
 import { host } from "../host/host";
 const LoadSolicitudesDPE = async (page: number) => {
-  const url = host + "/api/v1/solicitud/show-all-dpe" + "?page=" + page;
+  const url =
+    host + "/api/v1/solicitud/show-all-dpe" + "?page=" + page + "&limit=5";
   let error = "";
   try {
     const res = await fetch(url, {
