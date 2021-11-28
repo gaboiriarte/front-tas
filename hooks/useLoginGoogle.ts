@@ -1,3 +1,6 @@
+//base de datos en azure= YIMdrLkZv3lWuvKFGO1pfunMeTvYg1FX9DAt0p3m
+//base de datos local= kg0zpPPWxTSqDen26zyc55dzrzTFTOfpU8wm5qpn
+
 import { host } from "../host/host";
 const ingresoGoogle = async (access_token: string) => {
   const url = host + "/oauth/token";

@@ -12,6 +12,8 @@ import withReactContent from "sweetalert2-react-content";
 import { Loader } from "rsuite";
 import { ToastContainer, toast } from "react-toastify";
 import InputMask from "react-input-mask";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
 
 const STATE_INIT = {
   name_benef: "",
@@ -139,16 +141,16 @@ const CrearSolicitud = () => {
               <div className="row mb-3">
                 <div className="col-12 col-sm-8 mb-3">
                   <label className="form-label" htmlFor="form6Example1">
-                    Carrera Beneficiario
+                    Año que aplica
                   </label>
-                  <input
-                    placeholder="Carrera UCN NOTA: ESTO DEBE SER UN DROPDOWN"
-                    type="text"
-                    id="carrera_benef"
-                    name="carrera_benef"
-                    className="form-control"
-                    onChange={handleChange}
+                  <SelectPicker
+                    onChange={(e) => handleChange(e, "anio")}
                     onBlur={handlerBlur}
+                    size="md"
+                    placeholder="Seleccione el año que aplica beca"
+                    style={{ width: "100%" }}
+                    id="anio"
+                    data={aniosObject}
                   />
                 </div>
                 <div className="col-12 col-sm-4">
@@ -179,16 +181,126 @@ const CrearSolicitud = () => {
               <div className="row mb-3">
                 <div className="col-12 col-sm-12 mb-3">
                   <label className="form-label" htmlFor="form6Example1">
-                    Año que aplica
+                    Carrera Beneficiario
                   </label>
                   <SelectPicker
-                    onChange={(e) => handleChange(e, "anio")}
-                    onBlur={handlerBlur}
+                    searchable={true}
                     size="md"
-                    placeholder="Seleccione el año que aplica beca"
+                    placeholder="Seleccione carrera"
                     style={{ width: "100%" }}
-                    id="anio"
-                    data={aniosObject}
+                    id="carrera_benef"
+                    onChange={(e) => handleChange(e, "carrera_benef")}
+                    onBlur={handlerBlur}
+                    data={[
+                      {
+                        label: "Arquitectura",
+                        value: "Arquitectura",
+                      },
+                      {
+                        label: "Derecho",
+                        value: "Derecho",
+                      },
+                      {
+                        label: "Geología",
+                        value: "Geología",
+                      },
+                      {
+                        label: "Ingeniería Civil Ambiental",
+                        value: "Ingeniería Civil Ambiental",
+                      },
+                      {
+                        label: "Ingeniería Civil de Minas",
+                        value: "Ingeniería Civil de Minas",
+                      },
+                      {
+                        label: "Ingeniería Civil en Computación e Informática",
+                        value: "Ingeniería Civil en Computación e Informática",
+                      },
+                      {
+                        label: "Ingeniería Civil Industrial",
+                        value: "Ingeniería Civil Industrial",
+                      },
+                      {
+                        label: "Ingeniería Civil Metalúrgica",
+                        value: "Ingeniería Civil Metalúrgica",
+                      },
+                      {
+                        label: "Ingeniería Civil Plan Común",
+                        value: "Ingeniería Civil Plan Común",
+                      },
+                      {
+                        label: "Ingeniería Civil Química",
+                        value: "Ingeniería Civil Química",
+                      },
+                      {
+                        label: "Ingeniería Comercial",
+                        value: "Ingeniería Comercial",
+                      },
+                      {
+                        label: "Ingeniería en Computación e Informática",
+                        value: "Ingeniería en Computación e Informática",
+                      },
+                      {
+                        label: "Ingeniería en Información y Control de Gestión",
+                        value: "Ingeniería en Información y Control de Gestión",
+                      },
+                      {
+                        label: "Ingeniería en Metalurgia",
+                        value: "Ingeniería en Metalurgia",
+                      },
+                      {
+                        label: "Ingeniería en Tecnologías de Información",
+                        value: "Ingeniería en Tecnologías de Información",
+                      },
+                      {
+                        label: "Kinesiología",
+                        value: "Kinesiología",
+                      },
+                      {
+                        label:
+                          "Licenciatura en Física con mención en Astronomía",
+                        value:
+                          "Licenciatura en Física con mención en Astronomía",
+                      },
+                      {
+                        label: "Licenciatura en Matemática",
+                        value: "Licenciatura en Matemática",
+                      },
+                      {
+                        label: "Medicina",
+                        value: "Medicina",
+                      },
+                      {
+                        label: "Nutrición y Dietética",
+                        value: "Nutrición y Dietética",
+                      },
+                      {
+                        label:
+                          "Pedagogía en Educación Básica con Especialización",
+                        value:
+                          "Pedagogía en Educación Básica con Especialización",
+                      },
+                      {
+                        label: "Pedagogía en Inglés",
+                        value: "Pedagogía en Inglés",
+                      },
+                      {
+                        label: "Pedagogía en Matemática en Educación Media",
+                        value: "Pedagogía en Matemática en Educación Media",
+                      },
+                      {
+                        label: "Periodismo",
+                        value: "Periodismo",
+                      },
+                      {
+                        label: "Psicología",
+                        value: "Psicología",
+                      },
+                      {
+                        label: "Química y Farmacia",
+                        value: "Química y Farmacia",
+                      },
+                    ]}
                   />
                 </div>
               </div>
@@ -209,20 +321,41 @@ const CrearSolicitud = () => {
                 </div>
               </div>
               <div className="row mb-3">
-                <div className="col-12 col-sm-12">
+                <div className="col-6 col-sm-6">
                   <label className="form-label" htmlFor="form6Example1">
-                    adjunte archivos
+                    cupon de pago
                   </label>
                   <Uploader
                     onChange={(e) => handleChange(e, "documentacion")}
-                    action={" "}
+                    action={"/"}
                     draggable
                   >
-                    <div style={{ width: "100%", height: 100 }}>
-                      <h6>
-                        Adjunte certificado de nacimiento u otro documento que
-                        acredite parentesco. Puede arrastrar o hacer click
-                      </h6>
+                    <div style={{ width: "100%", height: 50 }}>
+                      <i>Arrastre o haga clic</i>
+                      <FontAwesomeIcon
+                        className="icono__panel pl-4"
+                        size="2x"
+                        icon={faFilePdf}
+                      />
+                    </div>
+                  </Uploader>
+                </div>
+                <div className="col-12 col-sm-6">
+                  <label className="form-label" htmlFor="form6Example1">
+                    Documentación (Opcional)
+                  </label>
+                  <Uploader
+                    onChange={(e) => handleChange(e, "documentacion")}
+                    action={"/"}
+                    draggable
+                  >
+                    <div style={{ width: "100%", height: 50 }}>
+                      <i>Adjunte documentación</i>
+                      <FontAwesomeIcon
+                        className="icono__panel pl-4"
+                        size="2x"
+                        icon={faFilePdf}
+                      />
                     </div>
                   </Uploader>
                 </div>

@@ -23,7 +23,6 @@ const useValidation = (stateInicial: any, validar: any, fn: any) => {
 
   //función que ejecuta conforme el usuario escribe
   const handleChange = (e: any, name?: any) => {
-    console.log(name);
     if (name) {
       setValues({ ...values, [name]: e });
     } else {

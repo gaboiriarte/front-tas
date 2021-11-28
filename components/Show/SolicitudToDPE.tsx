@@ -1,13 +1,15 @@
-import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Col, Loader, Row, List, Steps, Button, ButtonToolbar } from "rsuite";
 import withReactContent from "sweetalert2-react-content";
 import GetSolicitud from "../../hooks/useGetSolicitud";
-import changeStatusSolicitud from "../../hooks/usePostChangeStatusSolicitud";
+import changeStatusSolicitud from "../../hooks/usePostChangeStatusSolicitudDPE";
 import { host } from "../../host/host";
 import Swal from "sweetalert2";
+import AprobarDPE from "../Forms/AprobarDPE";
+import RechazarDPE from "../Forms/RechazarDPE";
 
 const SolicitudToDPE = ({ id }: any) => {
   const [data, setData]: any = useState({});
@@ -15,74 +17,6 @@ const SolicitudToDPE = ({ id }: any) => {
   const [documentacion, setDocumentacion] = useState([]);
   const router = useRouter();
   const MySwal = withReactContent(Swal);
-
-  const modalSweet = (estadoSolicitud: boolean) => {
-    estadoSolicitud
-      ? MySwal.fire({
-          title: "Aprobar Solicitud " + id,
-          html: (
-            <>
-              <div className="container">
-                <div className="row mb-3">
-                  <div className="col-12 col-sm-12 mb-3">
-                    <label className="form-label" htmlFor="form6Example1">
-                      Nombre del beneficiario
-                    </label>
-                    <input
-                      placeholder="Ingrese nombre completo"
-                      type="text"
-                      id="name_benef"
-                      name="name_benef"
-                      className="form-control"
-                    />
-                  </div>
-                </div>
-                <div className="row mb-3">
-                  <div className="col-12 col-sm-12 mb-3">
-                    <label className="form-label" htmlFor="form6Example1">
-                      Nombre del beneficiario
-                    </label>
-                    <input
-                      placeholder="Ingrese nombre completo"
-                      type="text"
-                      id="name_benef"
-                      name="name_benef"
-                      className="form-control"
-                    />
-                  </div>
-                </div>
-              </div>
-            </>
-          ),
-          showCancelButton: true,
-          cancelButtonText: "Cancelar",
-          confirmButtonColor: "#003057",
-          cancelButtonColor: "#da291c",
-          confirmButtonText: "Confirmar",
-          showLoaderOnConfirm: true,
-          preConfirm: (login: any) => {
-            return fetch(`//api.github.com/users/${login}`)
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error(response.statusText);
-                }
-                return response.json();
-              })
-              .catch((error) => {
-                MySwal.showValidationMessage(`Request failed: ${error}`);
-              });
-          },
-          allowOutsideClick: () => !MySwal.isLoading(),
-        }).then((result) => {
-          if (result.isConfirmed) {
-            MySwal.fire({
-              title: `${result.value.login}'s avatar`,
-              imageUrl: result.value.avatar_url,
-            });
-          }
-        })
-      : null;
-  };
 
   useEffect(() => {
     async function LoadData() {
@@ -98,6 +32,88 @@ const SolicitudToDPE = ({ id }: any) => {
     LoadData();
     cambiarStatus();
   }, []);
+
+  const modalSweet = (estadoSolicitud: boolean) => {
+    estadoSolicitud
+      ? MySwal.fire({
+          html: <AprobarDPE id={id} />,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonColor: "#003057",
+          cancelButtonColor: "#da291c",
+          confirmButtonText: "Confirmar",
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            const comentario_dpe =
+              //@ts-ignore
+              document.getElementById("comentario_dpe")?.value;
+            //@ts-ignore
+            const estamento = document.getElementById("tipo_estamento")?.value;
+            if (comentario_dpe === "" || estamento === "") {
+              MySwal.showValidationMessage("Debe ingresar todos los datos");
+            } else {
+              return changeStatusSolicitud(id, "2", comentario_dpe, estamento);
+            }
+          },
+          allowOutsideClick: () => !MySwal.isLoading(),
+        }).then((result) => {
+          if (!result.isConfirmed) {
+            return;
+          } else if (result.value.mensaje === "cambio con exito") {
+            MySwal.fire({
+              title: `Solicitud aprobada`,
+              timer: 1000,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+            }).then((result) => {
+              /* Read more about handling dismissals below */
+              if (result.dismiss === Swal.DismissReason.timer) {
+                router.back();
+              }
+            });
+          }
+        })
+      : MySwal.fire({
+          html: <RechazarDPE id={id} />,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonColor: "#003057",
+          cancelButtonColor: "#da291c",
+          confirmButtonText: "Confirmar",
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            const comentario_dpe =
+              //@ts-ignore
+              document.getElementById("comentario_dpe")?.value;
+            if (comentario_dpe === "") {
+              MySwal.showValidationMessage("Debe ingresar un comentario");
+            } else {
+              return changeStatusSolicitud(id, "3", comentario_dpe, "");
+            }
+          },
+          allowOutsideClick: () => !MySwal.isLoading(),
+        }).then((result) => {
+          if (!result.isConfirmed) {
+            return;
+          } else if (result.value.mensaje === "cambio con exito") {
+            MySwal.fire({
+              title: `Solicitud rechazada`,
+              timer: 1000,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+            }).then((result) => {
+              /* Read more about handling dismissals below */
+              if (result.dismiss === Swal.DismissReason.timer) {
+                router.back();
+              }
+            });
+          }
+        });
+  };
   return (
     <>
       <Row className="show-grid m-4">
@@ -112,7 +128,7 @@ const SolicitudToDPE = ({ id }: any) => {
                   <Loader size="lg" content="Cargando..." vertical />
                 </div>
               ) : (
-                <List>
+                <List size="sm">
                   <List.Item>
                     Nombre: <pre style={{ display: "inline" }}>&#09;</pre>
                     <span className="font-weight-bold">{data.user.name}</span>
@@ -147,7 +163,7 @@ const SolicitudToDPE = ({ id }: any) => {
                   <Loader size="lg" content="Cargando..." vertical />
                 </div>
               ) : (
-                <List>
+                <List size="sm">
                   <List.Item>
                     Nombre Estudiante:{" "}
                     <pre style={{ display: "inline" }}>&#09;</pre>
@@ -197,7 +213,7 @@ const SolicitudToDPE = ({ id }: any) => {
                   <Loader size="lg" content="Cargando..." vertical />
                 </div>
               ) : (
-                <List>
+                <List size="sm">
                   {data.comentario_funcionario && (
                     <List.Item>
                       Comentarios del funcionario:{" "}
@@ -256,7 +272,7 @@ const SolicitudToDPE = ({ id }: any) => {
                 <div className="col-12 col-sm-12 text-center">
                   <ButtonToolbar>
                     <Button
-                      className="px-5 mx-5 boton-enviar"
+                      className="px-3 mx-3 boton-enviar"
                       type="button"
                       onClick={() => modalSweet(true)}
                     >
@@ -264,7 +280,7 @@ const SolicitudToDPE = ({ id }: any) => {
                     </Button>
                     <Button
                       type="button"
-                      className="px-5 mx-5 boton-cancelar"
+                      className="px-3 mx-3 boton-cancelar"
                       onClick={() => modalSweet(false)}
                     >
                       Rechazar solicitud

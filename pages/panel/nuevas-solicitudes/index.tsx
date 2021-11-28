@@ -1,11 +1,13 @@
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
-import { Loader } from "rsuite";
+import { Button, Loader } from "rsuite";
 import SideNav from "../../../components/globals/SideNav";
 import { AuthContext } from "../../../context/AuthConext";
 import CheckLogin from "../../../hooks/useCheckLogin";
 import Header from "../../../components/globals/Header";
 import NuevasSolicitudesDPE from "../../../components/Tables/NuevasSolicitudes";
+import NuevasSolicitudesCobranza from "../../../components/Tables/NuevasSolicitudesCobranza";
+import NuevasSolicitudesDGE from "../../../components/Tables/NuevasSolicitudesDGE";
 
 const NuevasSolicitudes = () => {
   const router = useRouter();
@@ -48,7 +50,14 @@ const NuevasSolicitudes = () => {
               title="Sistema de gestión beca hijo de funcionario"
               divider="Menú"
             ></Header>
-            <NuevasSolicitudesDPE />
+            {rolUser === "dpe" && <NuevasSolicitudesDPE />}
+            {rolUser === "cobranza" && <NuevasSolicitudesCobranza />}
+            {rolUser === "dge" && <NuevasSolicitudesDGE />}
+            <div className="container text-center">
+              <Button onClick={router.back} className="boton-enviar mb-3 px-4">
+                Volver
+              </Button>
+            </div>
           </SideNav>
         </>
       )}

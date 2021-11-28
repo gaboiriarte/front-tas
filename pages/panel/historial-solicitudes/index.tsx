@@ -1,18 +1,13 @@
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../context/AuthConext";
-import Checklogin from "../../hooks/useCheckLogin";
-import Header from "../../components/globals/Header";
-import Admin from "../../components/panel-dashboard/Admin";
-import Funcionario from "../../components/panel-dashboard/Funcionario";
-import { Loader } from "rsuite";
-import { ToastContainer, toast } from "react-toastify";
-import SideNav from "../../components/globals/SideNav";
-import DireccionPersonas from "../../components/panel-dashboard/DireccionPersonas";
-import Cobranza from "../../components/panel-dashboard/Cobranza";
-import DGE from "../../components/panel-dashboard/DGE";
+import { Button, Loader } from "rsuite";
+import SideNav from "../../../components/globals/SideNav";
+import { AuthContext } from "../../../context/AuthConext";
+import CheckLogin from "../../../hooks/useCheckLogin";
+import Header from "../../../components/globals/Header";
+import HistorialSolicitudes from "../../../components/Tables/HistorialSolicitudesTable";
 
-const Dashboard = () => {
+const HistorialView = () => {
   const router = useRouter();
   const { signIn, checkLogin, authState } = useContext(AuthContext);
   const [isLoged, setIsLoged] = useState(true);
@@ -23,7 +18,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     async function verificar() {
-      const verificacion = await Checklogin();
+      const verificacion = await CheckLogin();
       if (verificacion === "error conexion") {
         router.push("/");
       } else if (verificacion.rol) {
@@ -38,12 +33,8 @@ const Dashboard = () => {
         router.push("/");
       }
     }
-    if (router.query.ok) {
-      toast.success("Solicitud creada con exito");
-    }
     verificar();
   }, []);
-
   return (
     <>
       {isLoged ? (
@@ -55,14 +46,14 @@ const Dashboard = () => {
               rolUser={rolUser}
               nameUser={nameUser}
               title="Sistema de gestión beca hijo de funcionario"
-              divider="Menú funcionario"
+              divider="Menú"
             ></Header>
-            {rolUser == "administrador" && <Admin />}
-            {rolUser == "funcionario" && <Funcionario />}
-            {rolUser == "dpe" && <DireccionPersonas />}
-            {rolUser == "cobranza" && <Cobranza />}
-            {rolUser == "dge" && <DGE />}
-            <ToastContainer />
+            <HistorialSolicitudes />
+            <div className="container text-center">
+              <Button onClick={router.back} className="boton-enviar mb-3 px-4">
+                Volver
+              </Button>
+            </div>
           </SideNav>
         </>
       )}
@@ -70,4 +61,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default HistorialView;

@@ -15,7 +15,7 @@ const Admin = () => {
             <a
               type="button"
               className="btn boton-panel mx-5"
-              href="panel/crear-solicitud"
+              href="panel/set-roles"
             >
               ver
             </a>

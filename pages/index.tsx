@@ -49,7 +49,7 @@ const Home = () => {
     function onSuccess(googleUser: any) {
       setIsLoged(true);
       const token = googleUser.getAuthResponse().access_token;
-      console.log(token);
+
       async function ingreso() {
         const loginGoogle = await ingresoGoogle(token);
         if (loginGoogle === "error conexion") {
@@ -106,7 +106,7 @@ const Home = () => {
   const iniciarSesion = async () => {
     setIsLoged(true);
     const peticion = await ingresarSistema(email, password, true);
-    console.log(peticion);
+
     if (peticion.error === "Credenciales incorrectas") {
       notifyIncorrect();
       setIsLoged(false);

@@ -6,6 +6,8 @@ import { AuthContext } from "../../../context/AuthConext";
 import CheckLogin from "../../../hooks/useCheckLogin";
 import Header from "../../../components/globals/Header";
 import SolicitudToDPE from "../../../components/Show/SolicitudToDPE";
+import SolicitudToCobranza from "../../../components/Show/SolicitudToCobranza";
+import SolicitudToDGE from "../../../components/Show/SolicitudToDGE";
 
 const AprobarSolicitudDPE = () => {
   const router = useRouter();
@@ -49,7 +51,11 @@ const AprobarSolicitudDPE = () => {
               title={"Solicitud Nº " + router.query.id}
               divider={"Detalles"}
             ></Header>
-            <SolicitudToDPE id={router.query.id} />
+            {rolUser === "dpe" && <SolicitudToDPE id={router.query.id} />}
+            {rolUser === "cobranza" && (
+              <SolicitudToCobranza id={router.query.id} />
+            )}
+            {rolUser === "dge" && <SolicitudToDGE id={router.query.id} />}
           </SideNav>
         </>
       )}

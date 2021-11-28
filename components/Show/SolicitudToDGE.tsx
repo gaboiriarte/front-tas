@@ -1,103 +1,23 @@
-import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { Col, Loader, Row, List, Steps, Button } from "rsuite";
+import { Col, Loader, Row, List, Steps, Button, ButtonToolbar } from "rsuite";
+import withReactContent from "sweetalert2-react-content";
 import GetSolicitud from "../../hooks/useGetSolicitud";
 import { host } from "../../host/host";
+import Swal from "sweetalert2";
+import changeStatusSolicitudDGE from "../../hooks/usePostChangeStatusSolicitudDGE";
+import AprobarDGE from "../Forms/AprobarDGE";
+import RechazarDGE from "../Forms/RechazarDGE";
+import PendienteDGE from "../Forms/PendienteDGE";
 
-const DetallesSolicitudAuth = ({ id }: any) => {
+const SolicitudToDGE = ({ id }: any) => {
   const [data, setData]: any = useState({});
   const [isLoged, setIsLoged] = useState(true);
-  const [status, setStatus] = useState(0);
-  const [mensajeDPE, setMensajeDPE] = useState("");
-  const [mensajeCobranza, setMensajeCobranza] = useState("");
-  const [mensajeDGE, setMensajeDGE] = useState("");
-  const [statusError, setStatusError] = useState(false);
   const [documentacion, setDocumentacion] = useState([]);
   const router = useRouter();
-
-  const calcEstado = (
-    estadoDPE: number,
-    estadoCobranza: number,
-    estadoDGE: number
-  ) => {
-    switch (estadoDPE) {
-      case 0:
-        setStatus(0);
-        return;
-        break;
-      case 1:
-        setStatus(1);
-        setMensajeDPE("En Revisión");
-        return;
-        break;
-      case 2:
-        switch (estadoCobranza) {
-          case 1:
-            setStatus(2);
-            setMensajeCobranza("En Revisión");
-            return;
-            break;
-          case 2:
-            switch (estadoDGE) {
-              case 1:
-                setStatus(3);
-                setMensajeDGE("En revisión");
-                return;
-                break;
-              case 2:
-                setStatus(4);
-                setMensajeDGE("Aprobada");
-                return;
-                break;
-              case 3:
-                setStatus(3);
-                setStatusError(true);
-                setMensajeDGE("Rechazada");
-                return;
-                break;
-              case 4:
-                setStatus(3);
-                setMensajeDGE("Pendiente");
-                return;
-                break;
-              case 5:
-                setStatus(3);
-                setMensajeDGE("Recepcionada");
-                return;
-                break;
-
-              default:
-                break;
-            }
-            break;
-          case 3:
-            setStatus(2);
-            setStatusError(true);
-            setMensajeCobranza("Rechazada");
-            return;
-            break;
-          case 5:
-            setStatus(2);
-            setMensajeCobranza("Recepcionada");
-            return;
-            break;
-
-          default:
-            break;
-        }
-      case 3:
-        setStatus(1);
-        setStatusError(true);
-        setMensajeCobranza("Rechazada");
-        return;
-        break;
-
-      default:
-        break;
-    }
-  };
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
     async function LoadData() {
@@ -106,14 +26,134 @@ const DetallesSolicitudAuth = ({ id }: any) => {
       setData(peticion);
       setIsLoged(false);
       setDocumentacion(JSON.parse(peticion.documentacion));
-      calcEstado(
-        peticion.status_dpe,
-        peticion.status_cobranza,
-        peticion.status_dge
-      );
+    }
+    async function cambiarStatus() {
+      const peticion = await changeStatusSolicitudDGE(id, "1", "");
     }
     LoadData();
+    cambiarStatus();
   }, []);
+
+  const modalSweet = (estadoSolicitud: boolean) => {
+    estadoSolicitud
+      ? MySwal.fire({
+          html: <AprobarDGE id={id} />,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonColor: "#003057",
+          cancelButtonColor: "#da291c",
+          confirmButtonText: "Confirmar",
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            const comentario_dge =
+              //@ts-ignore
+              document.getElementById("comentario_dge")?.value;
+            if (comentario_dge === "") {
+              MySwal.showValidationMessage("Debe ingresar algun comentario");
+            } else {
+              return changeStatusSolicitudDGE(id, "2", comentario_dge);
+            }
+          },
+          allowOutsideClick: () => !MySwal.isLoading(),
+        }).then((result) => {
+          if (!result.isConfirmed) {
+            return;
+          } else if (result.value.mensaje === "cambio con exito") {
+            MySwal.fire({
+              title: `Solicitud aprobada`,
+              timer: 1000,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+            }).then((result) => {
+              /* Read more about handling dismissals below */
+              if (result.dismiss === Swal.DismissReason.timer) {
+                router.back();
+              }
+            });
+          }
+        })
+      : MySwal.fire({
+          html: <RechazarDGE id={id} />,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonColor: "#003057",
+          cancelButtonColor: "#da291c",
+          confirmButtonText: "Confirmar",
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            const comentario_dge =
+              //@ts-ignore
+              document.getElementById("comentario_dge")?.value;
+            if (comentario_dge === "") {
+              MySwal.showValidationMessage("Debe ingresar un comentario");
+            } else {
+              return changeStatusSolicitudDGE(id, "3", comentario_dge);
+            }
+          },
+          allowOutsideClick: () => !MySwal.isLoading(),
+        }).then((result) => {
+          if (!result.isConfirmed) {
+            return;
+          } else if (result.value.mensaje === "cambio con exito") {
+            MySwal.fire({
+              title: `Solicitud rechazada`,
+              timer: 1000,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+            }).then((result) => {
+              /* Read more about handling dismissals below */
+              if (result.dismiss === Swal.DismissReason.timer) {
+                router.back();
+              }
+            });
+          }
+        });
+  };
+
+  const modalPendiente = () => {
+    MySwal.fire({
+      html: <PendienteDGE id={id} />,
+      showCancelButton: true,
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#003057",
+      cancelButtonColor: "#da291c",
+      confirmButtonText: "Confirmar",
+      showLoaderOnConfirm: true,
+      preConfirm: () => {
+        const comentario_dge =
+          //@ts-ignore
+          document.getElementById("comentario_dge")?.value;
+        if (comentario_dge === "") {
+          MySwal.showValidationMessage("Debe ingresar algun comentario");
+        } else {
+          return changeStatusSolicitudDGE(id, "4", comentario_dge);
+        }
+      },
+      allowOutsideClick: () => !MySwal.isLoading(),
+    }).then((result) => {
+      if (!result.isConfirmed) {
+        return;
+      } else if (result.value.mensaje === "cambio con exito") {
+        MySwal.fire({
+          title: `Solicitud Pendiente`,
+          timer: 1000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            router.back();
+          }
+        });
+      }
+    });
+  };
   return (
     <>
       <Row className="show-grid m-4">
@@ -128,7 +168,7 @@ const DetallesSolicitudAuth = ({ id }: any) => {
                   <Loader size="lg" content="Cargando..." vertical />
                 </div>
               ) : (
-                <List size="sm">
+                <List>
                   <List.Item>
                     Nombre: <pre style={{ display: "inline" }}>&#09;</pre>
                     <span className="font-weight-bold">{data.user.name}</span>
@@ -163,7 +203,7 @@ const DetallesSolicitudAuth = ({ id }: any) => {
                   <Loader size="lg" content="Cargando..." vertical />
                 </div>
               ) : (
-                <List size="sm">
+                <List>
                   <List.Item>
                     Nombre Estudiante:{" "}
                     <pre style={{ display: "inline" }}>&#09;</pre>
@@ -175,37 +215,13 @@ const DetallesSolicitudAuth = ({ id }: any) => {
                     <span className="font-weight-bold">{data.rut_benef}</span>
                   </List.Item>
                   <List.Item>
-                    Carrera: <pre style={{ display: "inline" }}>&#09;&#09;</pre>
-                    <span className="font-weight-bold">
-                      {data.carrera_benef}
-                    </span>
-                  </List.Item>
-                  <List.Item>
                     Fecha de creación:{" "}
                     <pre style={{ display: "inline" }}>&#09;</pre>
                     <span className="font-weight-bold">
                       {new Date(data.created_at).toLocaleDateString("es-ES")}
                     </span>
                   </List.Item>
-                  <List.Item>
-                    Estado de solicitud:{" "}
-                    <pre style={{ display: "inline" }}>&#09;</pre>
-                    <Steps
-                      current={status}
-                      currentStatus={statusError ? "error" : "process"}
-                    >
-                      <Steps.Item title="Recepcionada" />
-                      <Steps.Item
-                        title="Dirección de Personas"
-                        description={mensajeDPE}
-                      />
-                      <Steps.Item
-                        title="Cobranzas"
-                        description={mensajeCobranza}
-                      />
-                      <Steps.Item title="DGE" description={mensajeDGE} />
-                    </Steps>
-                  </List.Item>
+
                   <List.Item>
                     Documentación:{" "}
                     <pre style={{ display: "inline" }}>&#09;</pre>
@@ -288,6 +304,38 @@ const DetallesSolicitudAuth = ({ id }: any) => {
                 </List>
               )}
             </div>
+            <div className="card-header">
+              <p className="mx-5">Revisión dirección general estudiantil</p>
+            </div>
+            <div className="card-body">
+              <div className="row mb-3">
+                <div className="col-12 col-sm-12 text-center">
+                  <ButtonToolbar>
+                    <Button
+                      className="px-3 mx-3 boton-enviar"
+                      type="button"
+                      onClick={() => modalSweet(true)}
+                    >
+                      Aprobar solicitud
+                    </Button>
+                    <Button
+                      type="button"
+                      className="px-3 mx-3 boton-cancelar"
+                      onClick={() => modalSweet(false)}
+                    >
+                      Rechazar solicitud
+                    </Button>
+                    <Button
+                      type="button"
+                      className="px-3 mx-3 boton-pendiente"
+                      onClick={modalPendiente}
+                    >
+                      Solicitud Pendiente
+                    </Button>
+                  </ButtonToolbar>
+                </div>
+              </div>
+            </div>
           </div>
         </Col>
       </Row>
@@ -300,4 +348,4 @@ const DetallesSolicitudAuth = ({ id }: any) => {
   );
 };
 
-export default DetallesSolicitudAuth;
+export default SolicitudToDGE;
