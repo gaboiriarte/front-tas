@@ -14,7 +14,6 @@ const UseNotification = async (
     password: pass,
   };
 
-  console.log(JSON.stringify(data))
   try {
     await fetch("https://emailbhf.herokuapp.com/send-email", {
       method: "POST",
@@ -24,11 +23,9 @@ const UseNotification = async (
       body: JSON.stringify(data),
     })
       .then(function (res) {
-        console.log(res);
         return res;
       })
       .catch((err) => {
-        // console.log(err);
         return err;
       });
   } catch (e) {
