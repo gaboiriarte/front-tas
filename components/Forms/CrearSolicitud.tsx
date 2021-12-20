@@ -15,6 +15,7 @@ import InputMask from "react-input-mask";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import getUsersDPE from "../../hooks/useGetUserDPE";
+import UseNotification from "../../hooks/useNotification";
 
 const STATE_INIT = {
   name_benef: "",
@@ -63,8 +64,15 @@ const CrearSolicitud = () => {
         );
         if (submitSolicitud.mensaje === "Solicitud creada con exito") {
           const getUserDPE = await getUsersDPE();
-          /* console.log(getUserDPE); */ //array de usuarios dpe
-
+          if (getUserDPE.length > 0) {
+            for (let i = 0; i < getUserDPE.length; i++) {
+              await UseNotification(
+                getUserDPE[i].email,
+                "Nueva Solicitud Plataforma Beca Hijo de funcionario",
+                "Una persona ha realizado una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
+              );
+            }
+          }
           router.push({ pathname: "/panel", query: { ok: true } });
         } else if (
           submitSolicitud.mensaje ===
