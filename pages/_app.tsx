@@ -13,6 +13,7 @@ import esES from "rsuite/locales/es_ES";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  console.log("TEST HOLA MENSAJE 123")
   return (
     <>
       <Head>
