@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import InputMask from "react-input-mask";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import getUsersDPE from "../../hooks/useGetUserDPE";
 
 const STATE_INIT = {
   name_benef: "",
@@ -61,6 +62,9 @@ const CrearSolicitud = () => {
           user_id
         );
         if (submitSolicitud.mensaje === "Solicitud creada con exito") {
+          const getUserDPE = await getUsersDPE();
+          /* console.log(getUserDPE); */ //array de usuarios dpe
+
           router.push({ pathname: "/panel", query: { ok: true } });
         } else if (
           submitSolicitud.mensaje ===
