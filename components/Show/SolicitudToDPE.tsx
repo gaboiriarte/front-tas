@@ -49,7 +49,7 @@ const SolicitudToDPE = ({ id }: any) => {
               document.getElementById("comentario_dpe")?.value;
             //@ts-ignore
             const estamento = document.getElementById("tipo_estamento")?.value;
-            if (comentario_dpe === "" || estamento === "") {
+            if (estamento === "") {
               MySwal.showValidationMessage("Debe ingresar todos los datos");
             } else {
               return changeStatusSolicitud(id, "2", comentario_dpe, estamento);

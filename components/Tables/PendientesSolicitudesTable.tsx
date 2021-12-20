@@ -170,10 +170,10 @@ const PendientesSolicitudesTable = () => {
                                               trigger="hover"
                                               controlId="control-id-hover"
                                               speaker={
-                                                <Popover title="Tu solicitud se encuentra en proceso de verificación, una vez aprobada llegará una notificación a tu correo"></Popover>
+                                                <Popover title="Esta solicitud se encuentra pendiente por la DGE"></Popover>
                                               }
                                             >
-                                              <p>En Revisión</p>
+                                              <p>Pendiente</p>
                                             </Whisper>
                                           </th>
                                         )}

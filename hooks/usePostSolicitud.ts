@@ -7,6 +7,7 @@ const postSolicitud = async (
   anio: string,
   comentario_funcionario: string,
   archivos: Array<any>,
+  archivos2: Array<any>,
   user_id: string
 ) => {
   const url = host + "/api/v1/solicitud/create";
@@ -23,6 +24,9 @@ const postSolicitud = async (
   archivos.forEach((file) => {
     formData.append("documentacion[]", file.blobFile);
   });
+  archivos2.forEach((file) => {
+    formData.append("documentacion[]", file.blobFile);
+  });
 
   try {
     const res = await fetch(url, {
@@ -34,6 +38,7 @@ const postSolicitud = async (
       },
     });
     const data = await res.json();
+    console.log(data);
     return data;
   } catch (e) {
     error = "error conexion";

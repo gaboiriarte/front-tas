@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Loader } from "rsuite";
+import { Button, Loader } from "rsuite";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthConext";
 import { useRouter } from "next/router";
@@ -51,6 +51,11 @@ const MiSolicitudes = () => {
               divider={null}
             ></Header>
             <MiSolicitudesTable />
+            <div className="container text-center">
+              <Button onClick={router.back} className="boton-enviar mb-3 px-4">
+                Volver
+              </Button>
+            </div>
             <ToastContainer />
           </SideNav>
         </>

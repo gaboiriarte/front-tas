@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
-import { Loader } from "rsuite";
+import { Button, Loader } from "rsuite";
 import SideNav from "../../../components/globals/SideNav";
 import { AuthContext } from "../../../context/AuthConext";
 import CheckLogin from "../../../hooks/useCheckLogin";
@@ -50,6 +50,11 @@ const DetalleSolicitud = () => {
               divider={"Detalles"}
             ></Header>
             <DetallesSolicitudAuth id={router.query.id} />
+            <div className="container text-center">
+              <Button onClick={router.back} className="boton-enviar mb-3 px-4">
+                Volver
+              </Button>
+            </div>
           </SideNav>
         </>
       )}

@@ -33,21 +33,20 @@ const Home = () => {
       auth2 = gapi.auth2.init({
         client_id:
           "920846582943-uh9c9joa2nqkmk6skvtg46553dcp6490.apps.googleusercontent.com",
+        cookiepolicy: "single_host_origin",
+        // Request scopes in addition to 'profile' and 'email'
+        scope: "profile email",
+        fetch_basic_profile: false,
       });
+
       attachSignin(document.getElementById("customBtn"));
     });
 
     function attachSignin(element: any) {
-      auth2.attachClickHandler(
-        element,
-        { scope: "profile email" },
-        onSuccess,
-        onFailure
-      );
+      auth2.attachClickHandler(element, {}, onSuccess, onFailure);
     }
 
     function onSuccess(googleUser: any) {
-      setIsLoged(true);
       const token = googleUser.getAuthResponse().access_token;
 
       async function ingreso() {

@@ -13,30 +13,30 @@ const Header = ({ nameUser, rolUser, title, divider }: any) => {
   return (
     <>
       <div className="p-5 bg-portada">
-        <h5 className="mb-0 text-right">Bienvenido: {nameUser}</h5>
+        <h5 className="mb-0 text-right">Bienvenido/a: {nameUser}</h5>
         {rolUser === "funcionario" && (
           <h5 className="mb-3 text-right">
-            Usted a ingresado como: Funcionario UCN
+            Usted ha ingresado como: Funcionario UCN
           </h5>
         )}
         {rolUser === "administrador" && (
           <h5 className="mb-3 text-right">
-            Usted a ingresado como: Administrador plataforma DGE
+            Usted ha ingresado como: Administrador plataforma DGE
           </h5>
         )}
         {rolUser === "dpe" && (
           <h5 className="mb-3 text-right">
-            Usted a ingresado como: Encargado dirección de personas
+            Usted ha ingresado como: Encargado dirección de personas
           </h5>
         )}
         {rolUser === "cobranza" && (
           <h5 className="mb-3 text-right">
-            Usted a ingresado como: Encargado cobranza
+            Usted ha ingresado como: Encargado cobranza
           </h5>
         )}
         {rolUser === "dge" && (
           <h5 className="mb-3 text-right">
-            Usted a ingresado como: Encargado Dirección general estudiantil
+            Usted ha ingresado como: Encargado Dirección general estudiantil
           </h5>
         )}
       </div>

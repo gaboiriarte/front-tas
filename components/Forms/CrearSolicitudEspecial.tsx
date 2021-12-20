@@ -23,6 +23,7 @@ const STATE_INIT = {
   anio: "",
   comentario_funcionario: "",
   documentacion: [],
+  documentacion2: [],
   name_funcionario: "",
   rut_funcionario: "",
   email_funcionario: "",
@@ -60,6 +61,7 @@ const CrearSolicitudEspecial = () => {
           anio,
           comentario_funcionario,
           documentacion,
+          documentacion2,
           name_funcionario,
           rut_funcionario,
           email_funcionario,
@@ -78,6 +80,9 @@ const CrearSolicitudEspecial = () => {
         } else if (submitSolicitud.errors) {
           setIsLoged(false);
           toast.error("El email del funcionario ya esta en el sistema");
+        } else if (submitSolicitud.errors) {
+          setIsLoged(false);
+          toast.error("Los documentos deben ser formato pdf o doc");
         }
         // ingresar verificaciones de backend!!!
       }
@@ -111,6 +116,7 @@ const CrearSolicitudEspecial = () => {
     anio,
     comentario_funcionario,
     documentacion,
+    documentacion2,
     name_funcionario,
     email_funcionario,
     fono_funcionario,
@@ -147,7 +153,7 @@ const CrearSolicitudEspecial = () => {
                 </div>
                 <div className="col-12 col-sm-4">
                   <label className="form-label" htmlFor="form6Example2">
-                    Rut Beneficiario
+                    Rut del Beneficiario
                   </label>
                   <input
                     placeholder="12345678-9"
@@ -177,7 +183,7 @@ const CrearSolicitudEspecial = () => {
                 </div>
                 <div className="col-12 col-sm-4">
                   <label className="form-label" htmlFor="form6Example1">
-                    Tipo de matricula
+                    Tipo de matrícula
                   </label>
                   <SelectPicker
                     searchable={false}
@@ -203,7 +209,7 @@ const CrearSolicitudEspecial = () => {
               <div className="row mb-3">
                 <div className="col-12 col-sm-12 mb-3">
                   <label className="form-label" htmlFor="form6Example1">
-                    Carrera Beneficiario
+                    Carrera del Beneficiario
                   </label>
                   <SelectPicker
                     searchable={true}
@@ -332,7 +338,7 @@ const CrearSolicitudEspecial = () => {
                     Información adicional sobre la solicitud
                   </label>
                   <textarea
-                    placeholder="Agregue cualquier información adicional para personal del departamento de personas o cobranzas"
+                    placeholder="Agregue información adicional del alumno o funcionario"
                     onChange={handleChange}
                     onBlur={handlerBlur}
                     className="form-control"
@@ -343,9 +349,9 @@ const CrearSolicitudEspecial = () => {
                 </div>
               </div>
               <div className="row mb-3">
-                <div className="col-6 col-sm-6">
+                <div className="col-12 col-sm-6">
                   <label className="form-label" htmlFor="form6Example1">
-                    cupon de pago
+                    Comprobante de pago
                   </label>
                   <Uploader
                     onChange={(e) => handleChange(e, "documentacion")}
@@ -367,12 +373,12 @@ const CrearSolicitudEspecial = () => {
                     Documentación (Opcional)
                   </label>
                   <Uploader
-                    onChange={(e) => handleChange(e, "documentacion")}
+                    onChange={(e) => handleChange(e, "documentacion2")}
                     action={"/"}
                     draggable
                   >
                     <div style={{ width: "100%", height: 50 }}>
-                      <i>Adjunte documentación</i>
+                      <i>Adjunte documentación adicional</i>
                       <FontAwesomeIcon
                         className="icono__panel pl-4"
                         size="2x"
@@ -406,7 +412,7 @@ const CrearSolicitudEspecial = () => {
                 </div>
                 <div className="col-12 col-sm-4">
                   <label className="form-label" htmlFor="form6Example2">
-                    Rut Funcionario
+                    Rut del Funcionario
                   </label>
                   <input
                     placeholder="12345678-9"
@@ -422,7 +428,7 @@ const CrearSolicitudEspecial = () => {
               <div className="row mb-3">
                 <div className="col-12 col-sm-8 mb-3">
                   <label className="form-label" htmlFor="form6Example1">
-                    Email Funcionario
+                    Email del Funcionario
                   </label>
                   <input
                     placeholder="Ingrese nombre completo"
@@ -436,7 +442,7 @@ const CrearSolicitudEspecial = () => {
                 </div>
                 <div className="col-12 col-sm-4">
                   <label className="form-label" htmlFor="form6Example2">
-                    Telefono Funcionario
+                    Telefono del Funcionario
                   </label>
                   <input
                     placeholder="912345678"
@@ -452,7 +458,7 @@ const CrearSolicitudEspecial = () => {
               <div className="row mb-3">
                 <div className="col-12 col-sm-12">
                   <label className="form-label" htmlFor="form6Example1">
-                    Tipo Estamento
+                    Tipo de Estamento del funcionario
                   </label>
                   <SelectPicker
                     searchable={false}
@@ -486,10 +492,10 @@ const CrearSolicitudEspecial = () => {
               <div className="row mb-3">
                 <div className="col-12 col-sm-12">
                   <label className="form-label" htmlFor="form6Example1">
-                    Comentarios departamento de personas
+                    Comentarios adicionales para departamento de cobranza
                   </label>
                   <textarea
-                    placeholder="Agregue cualquier información adicional para cobranzas"
+                    placeholder="Agregue información adicional para cobranzas"
                     onChange={handleChange}
                     onBlur={handlerBlur}
                     className="form-control"

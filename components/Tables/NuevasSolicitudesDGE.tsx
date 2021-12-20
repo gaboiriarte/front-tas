@@ -54,7 +54,7 @@ const NuevasSolicitudesDGE = () => {
               <tbody>
                 <tr>
                   <th colSpan={4} className="text-center">
-                    Sin solicitudes pendientes cobranza
+                    Sin solicitudes pendientes Dirección general estudiantil
                   </th>
                 </tr>
               </tbody>

@@ -7,6 +7,7 @@ const postSolicitudEspecial = async (
   anio: string,
   comentario_funcionario: string,
   archivos: Array<any>,
+  archivos2: Array<any>,
   name_funcionario: string,
   rut_funcionario: string,
   email_funcionario: string,
@@ -31,6 +32,9 @@ const postSolicitudEspecial = async (
   formData.append("comentario_dpe", comentario_dpe);
 
   archivos.forEach((file) => {
+    formData.append("documentacion[]", file.blobFile);
+  });
+  archivos2.forEach((file) => {
     formData.append("documentacion[]", file.blobFile);
   });
 

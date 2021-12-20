@@ -23,6 +23,7 @@ const STATE_INIT = {
   anio: "",
   comentario_funcionario: "",
   documentacion: [],
+  documentacion2: [],
 };
 
 const CrearSolicitud = () => {
@@ -56,6 +57,7 @@ const CrearSolicitud = () => {
           anio,
           comentario_funcionario,
           documentacion,
+          documentacion2,
           user_id
         );
         if (submitSolicitud.mensaje === "Solicitud creada con exito") {
@@ -66,6 +68,9 @@ const CrearSolicitud = () => {
         ) {
           setIsLoged(false);
           toast.error(submitSolicitud.mensaje);
+        } else if (submitSolicitud.errors) {
+          setIsLoged(false);
+          toast.error("Los documentos deben ser formato pdf o doc");
         }
         // ingresar verificaciones de backend!!!
       }
@@ -95,6 +100,7 @@ const CrearSolicitud = () => {
     anio,
     comentario_funcionario,
     documentacion,
+    documentacion2,
   } = values;
 
   return (
@@ -155,7 +161,7 @@ const CrearSolicitud = () => {
                 </div>
                 <div className="col-12 col-sm-4">
                   <label className="form-label" htmlFor="form6Example1">
-                    Tipo de matricula
+                    Tipo de matrícula
                   </label>
                   <SelectPicker
                     searchable={false}
@@ -310,7 +316,7 @@ const CrearSolicitud = () => {
                     Información adicional sobre la solicitud
                   </label>
                   <textarea
-                    placeholder="Agregue cualquier información adicional para personal del departamento de personas o cobranzas"
+                    placeholder="Agregue información adicional para personal del departamento de personas o cobranzas"
                     onChange={handleChange}
                     onBlur={handlerBlur}
                     className="form-control"
@@ -321,9 +327,9 @@ const CrearSolicitud = () => {
                 </div>
               </div>
               <div className="row mb-3">
-                <div className="col-6 col-sm-6">
+                <div className="col-12 col-sm-6">
                   <label className="form-label" htmlFor="form6Example1">
-                    cupon de pago
+                    Comprobante de pago
                   </label>
                   <Uploader
                     onChange={(e) => handleChange(e, "documentacion")}
@@ -345,12 +351,12 @@ const CrearSolicitud = () => {
                     Documentación (Opcional)
                   </label>
                   <Uploader
-                    onChange={(e) => handleChange(e, "documentacion")}
+                    onChange={(e) => handleChange(e, "documentacion2")}
                     action={"/"}
                     draggable
                   >
                     <div style={{ width: "100%", height: 50 }}>
-                      <i>Adjunte documentación</i>
+                      <i>Adjunte documentación adicional</i>
                       <FontAwesomeIcon
                         className="icono__panel pl-4"
                         size="2x"

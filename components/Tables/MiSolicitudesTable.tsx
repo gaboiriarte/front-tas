@@ -10,6 +10,10 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { constants } from "fs";
+import DeleteSolicitud from "../../hooks/useDeleteSolicitud";
 
 const MiSolicitudesTable = () => {
   const [isLoged, setIsLoged] = useState(false);
@@ -17,6 +21,30 @@ const MiSolicitudesTable = () => {
   const [data, setData]: any = useState([]);
   const [activePage, setActivePage] = React.useState(1);
   const [total, setTotal] = React.useState(0);
+  const MySwal = withReactContent(Swal);
+
+  const modalDelete = (idSolicitud: String) => {
+    MySwal.fire({
+      title: "¿Eliminar Solicitud?",
+      text: "Esta acción es irreversible",
+      icon: "info",
+      showCancelButton: true,
+      cancelButtonText: "Mantener",
+      confirmButtonColor: "#da291c",
+      cancelButtonColor: "#003057",
+      confirmButtonText: "Eliminar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setIsLoged(false);
+        const peticion = await DeleteSolicitud(idSolicitud);
+
+        if (peticion.mensaje === "solicitud eliminada") {
+          router.reload();
+        }
+        // ingresar verificaciones de backend!!!
+      }
+    });
+  };
 
   useEffect(() => {
     setIsLoged(false);
@@ -169,6 +197,7 @@ const MiSolicitudesTable = () => {
                           }
                         >
                           <IconButton
+                            onClick={() => modalDelete(solicitud.id)}
                             className="mx-1"
                             icon={
                               <FontAwesomeIcon color="white" icon={faTrash} />

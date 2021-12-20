@@ -54,7 +54,7 @@ const SolicitudToCobranza = ({ id }: any) => {
               //@ts-ignore
               document.getElementById("estado_curricular")?.value;
 
-            if (comentario_cobranza === "" || estado_curricular == "") {
+            if (estado_curricular == "") {
               MySwal.showValidationMessage("Debe ingresar todos los datos");
             } else {
               return changeStatusSolicitudCobranza(

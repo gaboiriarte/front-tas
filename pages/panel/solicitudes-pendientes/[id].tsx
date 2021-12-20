@@ -6,6 +6,7 @@ import { AuthContext } from "../../../context/AuthConext";
 import CheckLogin from "../../../hooks/useCheckLogin";
 import Header from "../../../components/globals/Header";
 import DetallesSolicitudAuth from "../../../components/Show/MiSolicitud";
+import SolicitudPendienteDGE from "../../../components/Show/SolicitudPendienteDGE";
 
 const DetallePendiente = () => {
   const router = useRouter();
@@ -49,7 +50,7 @@ const DetallePendiente = () => {
               title={"Solicitud Nº " + router.query.id}
               divider={"Detalles"}
             ></Header>
-            <DetallesSolicitudAuth id={router.query.id} />
+            <SolicitudPendienteDGE id={router.query.id} role={rolUser} />
           </SideNav>
         </>
       )}

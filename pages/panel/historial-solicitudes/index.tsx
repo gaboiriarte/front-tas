@@ -45,7 +45,7 @@ const HistorialView = () => {
             <Header
               rolUser={rolUser}
               nameUser={nameUser}
-              title="Sistema de gestión beca hijo de funcionario"
+              title="Historial de solicitudes"
               divider="Menú"
             ></Header>
             <HistorialSolicitudes />

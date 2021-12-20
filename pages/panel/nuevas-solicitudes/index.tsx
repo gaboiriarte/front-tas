@@ -47,7 +47,7 @@ const NuevasSolicitudes = () => {
             <Header
               rolUser={rolUser}
               nameUser={nameUser}
-              title="Sistema de gestión beca hijo de funcionario"
+              title="Nuevas solicitudes"
               divider="Menú"
             ></Header>
             {rolUser === "dpe" && <NuevasSolicitudesDPE />}

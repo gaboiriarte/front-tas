@@ -58,27 +58,6 @@ const Funcionario = () => {
           </div>
         </div>
       </Col>
-      <Col xs={24} lg={6} md={12}>
-        <div className="card text-center shadow-1 mt-2">
-          <div className="card-header">
-            <FontAwesomeIcon className="icono__panel" icon={faUser} size="3x" />
-            <p>Mis Datos</p>
-          </div>
-          <div className="card-body">
-            <p className="card-text">
-              Permite ver y modificar mis datos personales
-            </p>
-
-            <a
-              type="button"
-              className="btn boton-panel mx-4"
-              href="panel/crear-solicitud"
-            >
-              ver
-            </a>
-          </div>
-        </div>
-      </Col>
     </Row>
   );
 };

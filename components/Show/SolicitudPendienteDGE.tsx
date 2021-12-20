@@ -2,11 +2,16 @@ import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { Col, Loader, Row, List, Steps, Button } from "rsuite";
+import { Col, Loader, Row, List, Steps, Button, ButtonToolbar } from "rsuite";
 import GetSolicitud from "../../hooks/useGetSolicitud";
 import { host } from "../../host/host";
+import AprobarDGE from "../Forms/AprobarDGE";
+import RechazarDGE from "../Forms/RechazarDGE";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import changeStatusSolicitudDGE from "../../hooks/usePostChangeStatusSolicitudDGE";
 
-const DetallesSolicitudAuth = ({ id }: any) => {
+const SolicitudPendienteDGE = ({ id, role }: any) => {
   const [data, setData]: any = useState({});
   const [isLoged, setIsLoged] = useState(true);
   const [status, setStatus] = useState(0);
@@ -16,6 +21,87 @@ const DetallesSolicitudAuth = ({ id }: any) => {
   const [statusError, setStatusError] = useState(false);
   const [documentacion, setDocumentacion] = useState([]);
   const router = useRouter();
+  const MySwal = withReactContent(Swal);
+
+  const modalSweet = (estadoSolicitud: boolean) => {
+    estadoSolicitud
+      ? MySwal.fire({
+          html: <AprobarDGE id={id} />,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonColor: "#003057",
+          cancelButtonColor: "#da291c",
+          confirmButtonText: "Confirmar",
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            const comentario_dge =
+              //@ts-ignore
+              document.getElementById("comentario_dge")?.value;
+            if (comentario_dge === "") {
+              MySwal.showValidationMessage("Debe ingresar algun comentario");
+            } else {
+              return changeStatusSolicitudDGE(id, "2", comentario_dge);
+            }
+          },
+          allowOutsideClick: () => !MySwal.isLoading(),
+        }).then((result) => {
+          if (!result.isConfirmed) {
+            return;
+          } else if (result.value.mensaje === "cambio con exito") {
+            MySwal.fire({
+              title: `Solicitud aprobada`,
+              timer: 1000,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+            }).then((result) => {
+              /* Read more about handling dismissals below */
+              if (result.dismiss === Swal.DismissReason.timer) {
+                router.back();
+              }
+            });
+          }
+        })
+      : MySwal.fire({
+          html: <RechazarDGE id={id} />,
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonColor: "#003057",
+          cancelButtonColor: "#da291c",
+          confirmButtonText: "Confirmar",
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            const comentario_dge =
+              //@ts-ignore
+              document.getElementById("comentario_dge")?.value;
+            if (comentario_dge === "") {
+              MySwal.showValidationMessage("Debe ingresar un comentario");
+            } else {
+              return changeStatusSolicitudDGE(id, "3", comentario_dge);
+            }
+          },
+          allowOutsideClick: () => !MySwal.isLoading(),
+        }).then((result) => {
+          if (!result.isConfirmed) {
+            return;
+          } else if (result.value.mensaje === "cambio con exito") {
+            MySwal.fire({
+              title: `Solicitud rechazada`,
+              timer: 1000,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading();
+              },
+            }).then((result) => {
+              /* Read more about handling dismissals below */
+              if (result.dismiss === Swal.DismissReason.timer) {
+                router.back();
+              }
+            });
+          }
+        });
+  };
 
   const calcEstado = (
     estadoDPE: number,
@@ -288,6 +374,30 @@ const DetallesSolicitudAuth = ({ id }: any) => {
                 </List>
               )}
             </div>
+            {role === "dge" && (
+              <div className="card-body">
+                <div className="row mb-3">
+                  <div className="col-12 col-sm-12 text-center">
+                    <ButtonToolbar>
+                      <Button
+                        className="px-3 mx-3 boton-enviar"
+                        type="button"
+                        onClick={() => modalSweet(true)}
+                      >
+                        Aprobar solicitud
+                      </Button>
+                      <Button
+                        type="button"
+                        className="px-3 mx-3 boton-cancelar"
+                        onClick={() => modalSweet(false)}
+                      >
+                        Rechazar solicitud
+                      </Button>
+                    </ButtonToolbar>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </Col>
       </Row>
@@ -295,4 +405,4 @@ const DetallesSolicitudAuth = ({ id }: any) => {
   );
 };
 
-export default DetallesSolicitudAuth;
+export default SolicitudPendienteDGE;

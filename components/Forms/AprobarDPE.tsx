@@ -31,8 +31,8 @@ const AprobarDPE = ({ id }: any) => {
                 name="tipo_estamento"
                 className="form-control"
               >
-                <option value="academico">Academico</option>
-                <option value="no academico">No Academico</option>
+                <option value="academico">Académico</option>
+                <option value="no academico">No Académico</option>
                 <option value="ex funcionario">Ex-funcionario</option>
                 <option value="excepcion especial">Excepción especial</option>
               </select>

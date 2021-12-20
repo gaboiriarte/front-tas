@@ -64,27 +64,6 @@ const DireccionPersonas = () => {
             </div>
           </div>
         </Col>
-        <Col xs={24} lg={6} md={12}>
-          <div className="card text-center shadow-1 mt-2">
-            <div className="card-header">
-              <FontAwesomeIcon
-                className="icono__panel"
-                icon={faUser}
-                size="2x"
-              />
-              <p>Mis Datos</p>
-            </div>
-            <div className="card-body">
-              <p className="card-text">
-                Permite ver y modificar mis datos personales
-              </p>
-
-              <a type="button" className="btn boton-panel mx-5" href="">
-                ver
-              </a>
-            </div>
-          </div>
-        </Col>
       </Row>
       <Divider>Administración Dirección de personas</Divider>
       <Row className="show-grid m-4 d-flex flex-lg-row flex-column justify-content-center">
@@ -165,31 +144,7 @@ const DireccionPersonas = () => {
             </div>
           </div>
         </Col>
-        <Col xs={24} lg={6} md={12}>
-          <div className="card text-center shadow-1 mt-2">
-            <div className="card-header">
-              <FontAwesomeIcon
-                className="icono__panel"
-                icon={faThumbtack}
-                size="2x"
-              />
-              <p>Solicitudes pendientes</p>
-            </div>
-            <div className="card-body">
-              <p className="card-text">
-                Permite ver todas las solicitudes en estado pendiente.
-              </p>
-
-              <a
-                type="button"
-                className="btn boton-panel mx-5"
-                href="panel/solicitudes-pendientes"
-              >
-                ver
-              </a>
-            </div>
-          </div>
-        </Col>
+        
       </Row>
     </>
   );
