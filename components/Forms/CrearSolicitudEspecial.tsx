@@ -14,6 +14,8 @@ import postSolicitudEspecial from "../../hooks/usePostSolicitudEspecial";
 import crearSolicitudValidationEspecial from "../../validations/crearSolicitudEspecialValidation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import getUsersCobranza from "../../hooks/useGetUserCobranza";
+import UseNotification from "../../hooks/useNotification";
 
 const STATE_INIT = {
   name_benef: "",
@@ -70,6 +72,41 @@ const CrearSolicitudEspecial = () => {
           comentario_dpe
         );
         if (submitSolicitud.mensaje === "Solicitud creada con exito") {
+          const cobranzaUsers = await getUsersCobranza();
+          if (cobranzaUsers.length > 0) {
+            for (let i = 0; i < cobranzaUsers.length; i++) {
+              await UseNotification(
+                cobranzaUsers[i].email,
+                "Nueva Solicitud Plataforma Beca Hijo de funcionario",
+                "Se ha recibido una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
+              );
+            }
+          }
+          await UseNotification(
+            email_funcionario,
+            "Nueva Solicitud Plataforma Beca Hijo de funcionario",
+            "Se ha ingresado una solicitud para la plataforma Beca Hijo de funcionario" +
+              "\n" +
+              "\n" +
+              "Beneficiado: " +
+              name_benef +
+              "\n" +
+              "\n" +
+              "Rut Beneficiado: " +
+              formatoRut(rut_benef) +
+              "\n" +
+              "\n" +
+              "Carrera: " +
+              carrera_benef +
+              "\n" +
+              "\n" +
+              "Tipo: " +
+              type_benef +
+              "\n" +
+              "\n" +
+              "Año: "
+              + anio
+          );
           router.push({ pathname: "/panel", query: { ok: true } });
         } else if (
           submitSolicitud.mensaje ===

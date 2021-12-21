@@ -12,6 +12,7 @@ import changeStatusSolicitudCobranza from "../../hooks/usePostChangeStatusSolici
 import AprobarCobranza from "../Forms/AprobarCobranza";
 import RechazarCobranza from "../Forms/RechazarCobranza";
 import { ToastContainer, toast } from "react-toastify";
+import getUsersCobranza from '../../hooks/useGetUserCobranza';
 
 const SolicitudToCobranza = ({ id }: any) => {
   const [data, setData]: any = useState({});
