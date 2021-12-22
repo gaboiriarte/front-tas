@@ -74,13 +74,12 @@ const CrearSolicitudEspecial = () => {
         if (submitSolicitud.mensaje === "Solicitud creada con exito") {
           const cobranzaUsers = await getUsersCobranza();
           if (cobranzaUsers.length > 0) {
-            for (let i = 0; i < cobranzaUsers.length; i++) {
-              await UseNotification(
-                cobranzaUsers[i].email,
-                "Nueva Solicitud Plataforma Beca Hijo de funcionario",
-                "Se ha recibido una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
-              );
-            }
+            //Se esta enviando solo al primer usuario por ahora
+            await UseNotification(
+              cobranzaUsers[0].email,
+              "Nueva Solicitud Plataforma Beca Hijo de funcionario [Cobranzas]",
+              "Se ha recibido una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
+            );
           }
           await UseNotification(
             email_funcionario,
@@ -104,8 +103,8 @@ const CrearSolicitudEspecial = () => {
               type_benef +
               "\n" +
               "\n" +
-              "Año: "
-              + anio
+              "Año: " +
+              anio
           );
           router.push({ pathname: "/panel", query: { ok: true } });
         } else if (

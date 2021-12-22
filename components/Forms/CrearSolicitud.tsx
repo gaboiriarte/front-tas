@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import getUsersDPE from "../../hooks/useGetUserDPE";
 import UseNotification from "../../hooks/useNotification";
+import UseCheckLogin from "../../hooks/useCheckLogin";
 
 const STATE_INIT = {
   name_benef: "",
@@ -64,14 +65,22 @@ const CrearSolicitud = () => {
         );
         if (submitSolicitud.mensaje === "Solicitud creada con exito") {
           const getUserDPE = await getUsersDPE();
+          const getUserActual = await UseCheckLogin();
+          if(getUserActual){
+            await UseNotification(
+              //Se esta enviando solo al primer usuario por ahora
+              getUserActual.email,
+              "Su solicitud se ha creado con éxito [Plataforma Beca hijo de funcionario]",
+              "Su solicitud se ha creado con éxito, en la plataforma podrá revisar el estado de su solicitud."
+            );
+          }
           if (getUserDPE.length > 0) {
-            for (let i = 0; i < getUserDPE.length; i++) {
-              await UseNotification(
-                getUserDPE[i].email,
-                "Nueva Solicitud Plataforma Beca Hijo de funcionario",
-                "Una persona ha realizado una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
-              );
-            }
+            await UseNotification(
+              //Se esta enviando solo al primer usuario por ahora
+              getUserDPE[0].email,
+              "Nueva Solicitud Plataforma Beca Hijo de funcionario [Dirección de Personas]",
+              "Alguien ha realizado una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
+            );
           }
           router.push({ pathname: "/panel", query: { ok: true } });
         } else if (
