@@ -36,6 +36,7 @@ const UseNotification = async (
       body: JSON.stringify(data),
     })
       .then(function (res) {
+        console.log(res);
         return res;
       })
       .catch((err) => {

@@ -76,7 +76,7 @@ const SolicitudPendienteDGE = ({ id, role }: any) => {
               //@ts-ignore
               document.getElementById("comentario_dge")?.value;
             if (comentario_dge === "") {
-              MySwal.showValidationMessage("Debe ingresar un comentario");
+              MySwal.showValidationMessage("Debe ingresar algún comentario");
             } else {
               return changeStatusSolicitudDGE(id, "3", comentario_dge);
             }
@@ -228,7 +228,7 @@ const SolicitudPendienteDGE = ({ id, role }: any) => {
                     <span className="font-weight-bold">{data.user.email}</span>
                   </List.Item>
                   <List.Item>
-                    Fono: <pre style={{ display: "inline" }}>&#09;&#09;</pre>
+                    Teléfono: <pre style={{ display: "inline" }}>&#09;&#09;</pre>
                     <span className="font-weight-bold">
                       {data.user.telefono}
                     </span>

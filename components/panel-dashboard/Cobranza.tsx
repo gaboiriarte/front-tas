@@ -129,7 +129,7 @@ const Cobranza = () => {
             </div>
             <div className="card-body">
               <p className="card-text">
-                Permite ver todas las solicitudes en estado pendiente.
+                Permite ver todas las solicitudes en estado pendiente
               </p>
 
               <a

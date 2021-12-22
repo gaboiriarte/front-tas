@@ -222,25 +222,14 @@ const MiSolicitudesTable = () => {
                           
                           <PDFDownloadLink 
                             document={<PDF 
-                                      nombre={data[0].name_benef} 
-                                      rut={data[0].rut_benef} 
-                                      carrera={data[0].carrera_benef} 
-                                      anio={data[0].periodo.anio} 
-                                      fechaSolicitud={`${new Date(data[0].created_at).getDate()}/${new Date(data[0].created_at).getMonth()}/${new Date(data[0].created_at).getFullYear()}`} 
-                                      numeroSolicitud={data[0].id}/>} fileName={`BHF${data[0].id}_${data[0].name_benef}.pdf`}>
+                                      nombre={solicitud.name_benef} 
+                                      rut={solicitud.rut_benef} 
+                                      carrera={solicitud.carrera_benef} 
+                                      anio={solicitud.periodo.anio} 
+                                      fechaSolicitud={`${new Date(solicitud.created_at).getDate()}/${new Date(solicitud.created_at).getMonth()}/${new Date(solicitud.created_at).getFullYear()}`} 
+                                      numeroSolicitud={solicitud.id}/>} fileName={`BHF${solicitud.id}_${solicitud.name_benef}.pdf`}>
                           <IconButton
                             className="mx-1"
-                            onClick={()=>{
-                              // console.log(data[0]);
-                              console.log('carrera',data[0].carrera_benef);
-                              console.log('numeroSoli', data[0].id);
-                              console.log('rut', data[0].rut_benef);
-                              console.log('nombre', data[0].name_benef);
-                              console.log('periodo', data[0].periodo.anio);
-                              console.log('fechacreacionsoli',`${new Date(data[0].created_at).getDate()}/${new Date(data[0].created_at).getMonth()}/${new Date(data[0].created_at).getFullYear()}`);
-                              
-                              // console.log(data[0].);
-                            }}
                             icon={
                               <FontAwesomeIcon
                                 color="white"
