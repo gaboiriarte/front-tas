@@ -9,7 +9,7 @@ const ingresoGoogle = async (access_token: string) => {
     const res = await fetch(url, {
       method: "POST",
       body:
-        "grant_type=social&client_id=1&client_secret=zO9W4P2lKO8bs6dX7vASWaLbMUbajrHDyk4sVg2E&provider=google&access_token=" +
+        "grant_type=social&client_id=1&client_secret=ZwqTekUv1aPp59rZYItV1onhCtjAC3CaZVaSYUQx&provider=google&access_token=" +
         access_token,
       headers: {
         Accept: "*/*",

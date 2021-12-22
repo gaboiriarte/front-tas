@@ -14,6 +14,9 @@ import { ToastContainer, toast } from "react-toastify";
 import InputMask from "react-input-mask";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import getUsersDPE from "../../hooks/useGetUserDPE";
+import UseNotification from "../../hooks/useNotification";
+import UseCheckLogin from "../../hooks/useCheckLogin";
 
 const STATE_INIT = {
   name_benef: "",
@@ -61,6 +64,36 @@ const CrearSolicitud = () => {
           user_id
         );
         if (submitSolicitud.mensaje === "Solicitud creada con exito") {
+          const getUserDPE = await getUsersDPE();
+          //convert array to string
+          const getUserActual = await UseCheckLogin();
+          let concurrentEmail = null;
+      
+          if (getUserDPE.length > 0) {
+            let emailsDPE = "";
+            await getUserDPE.map((item: any) => {
+              emailsDPE += item.email + ",";
+              return true;
+            });
+            emailsDPE = emailsDPE.substring(0, emailsDPE.length - 1);
+            await UseNotification(
+              emailsDPE,
+              "Nueva Solicitud Plataforma Beca Hijo de funcionario [Dirección de Personas]",
+              "Alguien ha realizado una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
+            );
+          }
+
+          //delay para que se envie el correo (el servidor de correos no soporta conexiones concurrentes)
+          setTimeout(async () => {
+            if (getUserActual) {
+              concurrentEmail = await UseNotification(
+                getUserActual.email,
+                "Su solicitud se ha creado con éxito [Plataforma Beca hijo de funcionario]",
+                "Su solicitud se ha creado con éxito, en la plataforma podrá revisar el estado de su solicitud."
+              );
+            }
+          }, 200);
+
           router.push({ pathname: "/panel", query: { ok: true } });
         } else if (
           submitSolicitud.mensaje ===
