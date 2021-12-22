@@ -182,8 +182,7 @@ const SolicitudToDGE = ({ id }: any) => {
                     <span className="font-weight-bold">{data.user.email}</span>
                   </List.Item>
                   <List.Item>
-                    Teléfono:{" "}
-                    <pre style={{ display: "inline" }}>&#09;&#09;</pre>
+                    Teléfono: <pre style={{ display: "inline" }}>&#09;</pre>
                     <span className="font-weight-bold">
                       {data.user.telefono}
                     </span>
@@ -221,6 +220,13 @@ const SolicitudToDGE = ({ id }: any) => {
                     Rut Estudiante:{" "}
                     <pre style={{ display: "inline" }}>&#09;&#09;</pre>
                     <span className="font-weight-bold">{data.rut_benef}</span>
+                  </List.Item>
+                  <List.Item>
+                    Estado Curricular:{" "}
+                    <pre style={{ display: "inline" }}>&#09;</pre>
+                    <span className="font-weight-bold">
+                      {data.estado_curricular}
+                    </span>
                   </List.Item>
                   <List.Item>
                     Fecha de creación:{" "}

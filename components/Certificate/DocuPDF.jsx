@@ -8,7 +8,6 @@ import {
   StyleSheet,
 } from "@react-pdf/renderer";
 
-
 const styles = StyleSheet.create({
   page: {
     display: "flex",
@@ -39,22 +38,27 @@ const styles = StyleSheet.create({
   },
   containerLogo: {
     display: "flex",
-    alignItems:"center",
+    alignItems: "center",
     justifyContent: "center",
     marginBottom: "10px",
     width: "100%",
-    height: "150px"
+    height: "150px",
   },
   logo: {
     height: "100%",
     width: "150px",
-    margin: "auto"
+    margin: "auto",
   },
 });
 
-const DocuPDF = ({nombre, rut, carrera, anio, fechaSolicitud, numeroSolicitud}) => {
-
-    
+const DocuPDF = ({
+  nombre,
+  rut,
+  carrera,
+  anio,
+  fechaSolicitud,
+  numeroSolicitud,
+}) => {
   const estudiante = {
     nombre: nombre,
     rut: rut,
@@ -67,10 +71,8 @@ const DocuPDF = ({nombre, rut, carrera, anio, fechaSolicitud, numeroSolicitud}) 
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
-
-          
           <View style={styles.containerLogo}>
-            <Image 
+            <Image
               style={styles.logo}
               src="/Escudo-UCN-Full-Color.png"
               alt=""
@@ -84,8 +86,11 @@ const DocuPDF = ({nombre, rut, carrera, anio, fechaSolicitud, numeroSolicitud}) 
 
           <View style={styles.principal}>
             <Text style={styles.paragraph}>
-              Se aprueba a don(a): {estudiante.nombre}, con el R.U.T {estudiante.carrera}, de la carrera de {estudiante.carrera}. La asignación de la Beca Hijo de Funcionario para el año {estudiante.anio}, al ser verificado por la
-Dirección de Personas, Dirección de Finanzas y la Dirección General Estudiantil.
+              Se aprueba a don(a): {estudiante.nombre}, con el R.U.T{" "}
+              {estudiante.rut}, de la carrera de {estudiante.carrera}. La
+              asignación de la Beca Hijo de Funcionario para el año{" "}
+              {estudiante.anio}, al ser verificado por la Dirección de Personas,
+              Dirección de Finanzas y la Dirección General Estudiantil.
             </Text>
           </View>
           <View>
