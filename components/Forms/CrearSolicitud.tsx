@@ -92,7 +92,7 @@ const CrearSolicitud = () => {
                 "Su solicitud se ha creado con éxito, en la plataforma podrá revisar el estado de su solicitud."
               );
             }
-          }, 200);
+          }, 1000);
 
           router.push({ pathname: "/panel", query: { ok: true } });
         } else if (

@@ -114,7 +114,7 @@ const CrearSolicitudEspecial = () => {
                 "Año: " +
                 anio
             );
-          }, 200);
+          }, 1000);
 
           router.push({ pathname: "/panel", query: { ok: true } });
         } else if (
