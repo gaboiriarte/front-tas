@@ -488,7 +488,7 @@ const CrearSolicitudEspecial = () => {
                 </div>
                 <div className="col-12 col-sm-4">
                   <label className="form-label" htmlFor="form6Example2">
-                    Telefono del Funcionario
+                    Teléfono del Funcionario
                   </label>
                   <input
                     placeholder="912345678"
@@ -516,11 +516,11 @@ const CrearSolicitudEspecial = () => {
                     onBlur={handlerBlur}
                     data={[
                       {
-                        label: "Academico",
+                        label: "Académico",
                         value: "academico",
                       },
                       {
-                        label: "No academico",
+                        label: "No académico",
                         value: "no academico",
                       },
                       {
@@ -528,7 +528,7 @@ const CrearSolicitudEspecial = () => {
                         value: "ex funcionario",
                       },
                       {
-                        label: "Excepcion especial",
+                        label: "Excepción especial",
                         value: "excepcion especial",
                       },
                     ]}

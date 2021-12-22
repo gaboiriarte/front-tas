@@ -65,7 +65,7 @@ const DireccionPersonas = () => {
           </div>
         </Col>
       </Row>
-      <Divider>Administración Dirección de personas</Divider>
+      <Divider>Administración Dirección de Personas</Divider>
       <Row className="show-grid m-4 d-flex flex-lg-row flex-column justify-content-center">
         <Col xs={24} lg={6} md={12}>
           <div className="card text-center shadow-1 mt-2">
@@ -79,7 +79,7 @@ const DireccionPersonas = () => {
             </div>
             <div className="card-body">
               <p className="card-text">
-                Permite ingresar una nueva solicitud de beca para un funcionario
+                Permite ingresar una nueva solicitud de beca para un tercero
               </p>
 
               <a

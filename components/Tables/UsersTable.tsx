@@ -68,7 +68,7 @@ const UsersTable = () => {
     setIsLoged(false);
     async function llenarTabla() {
       const peticion = await getUsers(activePage);
-      console.log(peticion.data);
+      console.log(peticion);
       if (peticion === "error conexion") {
         router.push("/");
       } else if (Array.isArray(peticion.data)) {

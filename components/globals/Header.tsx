@@ -26,17 +26,17 @@ const Header = ({ nameUser, rolUser, title, divider }: any) => {
         )}
         {rolUser === "dpe" && (
           <h5 className="mb-3 text-right">
-            Usted ha ingresado como: Encargado dirección de personas
+            Usted ha ingresado como: Encargado Dirección de Personas
           </h5>
         )}
         {rolUser === "cobranza" && (
           <h5 className="mb-3 text-right">
-            Usted ha ingresado como: Encargado cobranza
+            Usted ha ingresado como: Encargado Cobranza
           </h5>
         )}
         {rolUser === "dge" && (
           <h5 className="mb-3 text-right">
-            Usted ha ingresado como: Encargado Dirección general estudiantil
+            Usted ha ingresado como: Encargado Dirección General Estudiantil
           </h5>
         )}
       </div>
