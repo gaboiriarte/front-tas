@@ -1,5 +1,18 @@
 import React from "react";
 
+/**
+ * Este metodo se encarga de enviar uno o más correos, para enviar más de un correo
+ * deben ir separados por comas.
+ * ej:
+ * const email = "correo1@mail.com"
+ * const emails = "correo1@mail.com,correo2@mail.com"
+ *
+ * @param email - Correo(s) electronico
+ * @param subject - Asunto del correo
+ * @param message - Mensaje del correo
+ *
+ * **/
+
 const UseNotification = async (
   email: string,
   subject = "Notificación de plataforma Beca Hijo de funcionario",
@@ -13,7 +26,7 @@ const UseNotification = async (
     message,
     password: pass,
   };
-
+  console.log("CORREOS: " + email);
   try {
     await fetch("https://emailbhf.herokuapp.com/send-email", {
       method: "POST",

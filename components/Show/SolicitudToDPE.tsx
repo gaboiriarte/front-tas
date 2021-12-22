@@ -10,6 +10,8 @@ import { host } from "../../host/host";
 import Swal from "sweetalert2";
 import AprobarDPE from "../Forms/AprobarDPE";
 import RechazarDPE from "../Forms/RechazarDPE";
+import getUsersCobranza from "../../hooks/useGetUserCobranza";
+import UseNotification from "../../hooks/useNotification";
 
 const SolicitudToDPE = ({ id }: any) => {
   const [data, setData]: any = useState({});
@@ -52,7 +54,34 @@ const SolicitudToDPE = ({ id }: any) => {
             if (estamento === "") {
               MySwal.showValidationMessage("Debe ingresar todos los datos");
             } else {
-              return changeStatusSolicitud(id, "2", comentario_dpe, estamento);
+              const resAprobarDpe = changeStatusSolicitud(
+                id,
+                "2",
+                comentario_dpe,
+                estamento
+              );
+              resAprobarDpe
+                .then(async (res) => {
+                  const cobranzaUsers = await getUsersCobranza();
+                  if (cobranzaUsers.length > 0) {
+                    let emailsCobranza = "";
+                    await cobranzaUsers.map((item: any) => {
+                      emailsCobranza += item.email + ",";
+                      return true;
+                    });
+                    emailsCobranza = emailsCobranza.substring(
+                      0,
+                      emailsCobranza.length - 1
+                    );
+                    await UseNotification(
+                      emailsCobranza,
+                      "Nueva Solicitud Plataforma Beca Hijo de funcionario [Cobranzas]",
+                      "Se ha recibido una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
+                    );
+                  }
+                })
+                .catch((err) => {});
+              return resAprobarDpe;
             }
           },
           allowOutsideClick: () => !MySwal.isLoading(),
