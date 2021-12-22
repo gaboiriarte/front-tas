@@ -115,7 +115,7 @@ const SolicitudToCobranza = ({ id }: any) => {
               //@ts-ignore
               document.getElementById("comentario_cobranza")?.value;
             if (comentario_cobranza === "") {
-              MySwal.showValidationMessage("Debe ingresar un comentario");
+              MySwal.showValidationMessage("Debe ingresar algún comentario");
             } else {
               return changeStatusSolicitudCobranza(
                 id,

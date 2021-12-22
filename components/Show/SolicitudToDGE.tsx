@@ -101,7 +101,7 @@ const SolicitudToDGE = ({ id }: any) => {
               //@ts-ignore
               document.getElementById("comentario_dge")?.value;
             if (comentario_dge === "") {
-              MySwal.showValidationMessage("Debe ingresar un comentario");
+              MySwal.showValidationMessage("Debe ingresar algún comentario");
             } else {
               return changeStatusSolicitudDGE(id, "3", comentario_dge);
             }
@@ -142,7 +142,7 @@ const SolicitudToDGE = ({ id }: any) => {
           //@ts-ignore
           document.getElementById("comentario_dge")?.value;
         if (comentario_dge === "") {
-          MySwal.showValidationMessage("Debe ingresar algun comentario");
+          MySwal.showValidationMessage("Debe ingresar algún comentario");
         } else {
           return changeStatusSolicitudDGE(id, "4", comentario_dge);
         }

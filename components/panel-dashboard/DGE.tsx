@@ -65,7 +65,7 @@ const DGE = () => {
           </div>
         </Col>
       </Row>
-      <Divider>Administración Dirección general estudiantil</Divider>
+      <Divider>Administración Dirección General Estudiantil</Divider>
       <Row className="show-grid m-4 d-flex flex-lg-row flex-column justify-content-center">
         <Col xs={24} lg={6} md={12}>
           <div className="card text-center shadow-1 mt-2">
@@ -129,7 +129,7 @@ const DGE = () => {
             </div>
             <div className="card-body">
               <p className="card-text">
-                Permite ver todas las solicitudes en estado pendiente.
+                Permite ver todas las solicitudes en estado pendiente
               </p>
 
               <a
