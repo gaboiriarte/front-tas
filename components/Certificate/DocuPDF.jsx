@@ -84,7 +84,7 @@ const DocuPDF = ({nombre, rut, carrera, anio, fechaSolicitud, numeroSolicitud}) 
 
           <View style={styles.principal}>
             <Text style={styles.paragraph}>
-              Se aprueba a don(a): {estudiante.nombre}, con el R.U.T {estudiante.carrera}, de la carrera de {estudiante.carrera}. La asignación de la Beca Hijo de Funcionario para el año {estudiante.anio}, al ser verificado por la
+              Se aprueba a don(a): {estudiante.nombre}, con el R.U.T {estudiante.rut}, de la carrera de {estudiante.carrera}. La asignación de la Beca Hijo de Funcionario para el año {estudiante.anio}, al ser verificado por la
 Dirección de Personas, Dirección de Finanzas y la Dirección General Estudiantil.
             </Text>
           </View>
