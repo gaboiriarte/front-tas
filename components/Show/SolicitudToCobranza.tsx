@@ -159,7 +159,7 @@ const SolicitudToCobranza = ({ id }: any) => {
                     <span className="font-weight-bold">{data.user.email}</span>
                   </List.Item>
                   <List.Item>
-                    Fono: <pre style={{ display: "inline" }}>&#09;&#09;</pre>
+                    Teléfono: <pre style={{ display: "inline" }}>&#09;&#09;</pre>
                     <span className="font-weight-bold">
                       {data.user.telefono}
                     </span>
