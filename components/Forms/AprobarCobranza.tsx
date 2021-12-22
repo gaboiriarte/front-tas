@@ -24,15 +24,15 @@ const AprobarCobranza = ({ id }: any) => {
           <div className="row mb-3">
             <div className="col-12 col-sm-12 mb-3">
               <label className="form-label" htmlFor="form6Example1">
-                Seleccione estado curricular
+                Seleccione situación curricular
               </label>
               <select
                 id="estado_curricular"
                 name="estado_curricular"
                 className="form-control"
               >
-                <option value="matriculado">Matriculado</option>
-                <option value="no matriculado">No Matriculado</option>
+                <option value="Alumno Regular">Alumno Regular</option>
+                <option value="Alumno Eliminado">Alumno Eliminado</option>
               </select>
             </div>
           </div>

@@ -1,4 +1,5 @@
-import Icon from "@rsuite/icons/lib/Icon";
+// import Icon from "@rsuite/icons/lib/Icon";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { IconButton, Pagination, Popover, Whisper, Divider } from "rsuite";
@@ -14,6 +15,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { constants } from "fs";
 import DeleteSolicitud from "../../hooks/useDeleteSolicitud";
+import dynamic from "next/dynamic";
 
 const MiSolicitudesTable = () => {
   const [isLoged, setIsLoged] = useState(false);
@@ -22,6 +24,7 @@ const MiSolicitudesTable = () => {
   const [activePage, setActivePage] = React.useState(1);
   const [total, setTotal] = React.useState(0);
   const MySwal = withReactContent(Swal);
+  const PDF = dynamic(import('../Certificate/DocuPDF.jsx'),{ssr:false});
 
   const modalDelete = (idSolicitud: String) => {
     MySwal.fire({
@@ -215,9 +218,29 @@ const MiSolicitudesTable = () => {
                           speaker={
                             <Popover title="Descargar Comprobante"></Popover>
                           }
-                        >
+                        > 
+                          
+                          <PDFDownloadLink 
+                            document={<PDF 
+                                      nombre={data[0].name_benef} 
+                                      rut={data[0].rut_benef} 
+                                      carrera={data[0].carrera_benef} 
+                                      anio={data[0].periodo.anio} 
+                                      fechaSolicitud={`${new Date(data[0].created_at).getDate()}/${new Date(data[0].created_at).getMonth()}/${new Date(data[0].created_at).getFullYear()}`} 
+                                      numeroSolicitud={data[0].id}/>} fileName={`BHF${data[0].id}_${data[0].name_benef}.pdf`}>
                           <IconButton
                             className="mx-1"
+                            onClick={()=>{
+                              // console.log(data[0]);
+                              console.log('carrera',data[0].carrera_benef);
+                              console.log('numeroSoli', data[0].id);
+                              console.log('rut', data[0].rut_benef);
+                              console.log('nombre', data[0].name_benef);
+                              console.log('periodo', data[0].periodo.anio);
+                              console.log('fechacreacionsoli',`${new Date(data[0].created_at).getDate()}/${new Date(data[0].created_at).getMonth()}/${new Date(data[0].created_at).getFullYear()}`);
+                              
+                              // console.log(data[0].);
+                            }}
                             icon={
                               <FontAwesomeIcon
                                 color="white"
@@ -228,6 +251,8 @@ const MiSolicitudesTable = () => {
                             color="blue"
                             circle
                           />
+                          </PDFDownloadLink>
+                          
                         </Whisper>
                       ) : null}
                     </th>
@@ -267,5 +292,6 @@ const MiSolicitudesTable = () => {
     </>
   );
 };
+
 
 export default MiSolicitudesTable;
