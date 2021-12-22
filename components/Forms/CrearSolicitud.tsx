@@ -68,7 +68,6 @@ const CrearSolicitud = () => {
           const getUserActual = await UseCheckLogin();
           if(getUserActual){
             await UseNotification(
-              //Se esta enviando solo al primer usuario por ahora
               getUserActual.email,
               "Su solicitud se ha creado con éxito [Plataforma Beca hijo de funcionario]",
               "Su solicitud se ha creado con éxito, en la plataforma podrá revisar el estado de su solicitud."
