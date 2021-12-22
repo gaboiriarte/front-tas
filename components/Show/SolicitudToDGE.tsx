@@ -11,6 +11,7 @@ import changeStatusSolicitudDGE from "../../hooks/usePostChangeStatusSolicitudDG
 import AprobarDGE from "../Forms/AprobarDGE";
 import RechazarDGE from "../Forms/RechazarDGE";
 import PendienteDGE from "../Forms/PendienteDGE";
+import UseNotification from "../../hooks/useNotification";
 
 const SolicitudToDGE = ({ id }: any) => {
   const [data, setData]: any = useState({});
@@ -66,8 +67,21 @@ const SolicitudToDGE = ({ id }: any) => {
               didOpen: () => {
                 Swal.showLoading();
               },
-            }).then((result) => {
+            }).then(async (result) => {
               /* Read more about handling dismissals below */
+              const emailFuncionario = data.user.email;
+              const numeroSolicitud = data.id;
+              console.log(emailFuncionario);
+              console.log(numeroSolicitud);
+              await UseNotification(
+                emailFuncionario,
+                "La solicitud N° " + numeroSolicitud + " ha sido aprobada",
+                "La solicitud N° " +
+                  numeroSolicitud +
+                  " ha sido aprobada." +
+                  "\n" +
+                  "Para más información diríjase hacia la plataforma y revise el estado de su solicitud."
+              );
               if (result.dismiss === Swal.DismissReason.timer) {
                 router.back();
               }
