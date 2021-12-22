@@ -13,8 +13,8 @@ import AprobarCobranza from "../Forms/AprobarCobranza";
 import RechazarCobranza from "../Forms/RechazarCobranza";
 import { ToastContainer, toast } from "react-toastify";
 import getUsersCobranza from "../../hooks/useGetUserCobranza";
-import getUsersDGE from '../../hooks/useGetUserDGE';
-import UseNotification from '../../hooks/useNotification';
+import getUsersDGE from "../../hooks/useGetUserDGE";
+import UseNotification from "../../hooks/useNotification";
 
 const SolicitudToCobranza = ({ id }: any) => {
   const [data, setData]: any = useState({});
@@ -80,17 +80,21 @@ const SolicitudToCobranza = ({ id }: any) => {
               didOpen: () => {
                 Swal.showLoading();
               },
-            }).then( async (result) => {
+            }).then(async (result) => {
               const dgeUsers = await getUsersDGE();
               if (dgeUsers.length > 0) {
+                let emailsDGE = "";
+                await dgeUsers.map((item: any) => {
+                  emailsDGE += item.email + ",";
+                  return true;
+                });
+                emailsDGE = emailsDGE.substring(0, emailsDGE.length - 1);
                 await UseNotification(
-                  //Se esta enviando solo al primer usuario por ahora
-                  dgeUsers[0].email,
+                  emailsDGE,
                   "Nueva Solicitud Plataforma Beca Hijo de funcionario [DGE]",
                   "Se ha recibido una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
                 );
               }
-
               /* Read more about handling dismissals below */
               if (result.dismiss === Swal.DismissReason.timer) {
                 router.back();

@@ -73,39 +73,49 @@ const CrearSolicitudEspecial = () => {
         );
         if (submitSolicitud.mensaje === "Solicitud creada con exito") {
           const cobranzaUsers = await getUsersCobranza();
+
           if (cobranzaUsers.length > 0) {
-            //Se esta enviando solo al primer usuario por ahora
+            let emailsDPE = "";
+            await cobranzaUsers.map((item: any) => {
+              emailsDPE += item.email + ",";
+              return true;
+            });
+            emailsDPE = emailsDPE.substring(0, emailsDPE.length - 1);
             await UseNotification(
-              cobranzaUsers[0].email,
+              emailsDPE,
               "Nueva Solicitud Plataforma Beca Hijo de funcionario [Cobranzas]",
               "Se ha recibido una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
             );
           }
-          await UseNotification(
-            email_funcionario,
-            "Nueva Solicitud Plataforma Beca Hijo de funcionario",
-            "Se ha ingresado una solicitud para la plataforma Beca Hijo de funcionario" +
-              "\n" +
-              "\n" +
-              "Beneficiado: " +
-              name_benef +
-              "\n" +
-              "\n" +
-              "Rut Beneficiado: " +
-              formatoRut(rut_benef) +
-              "\n" +
-              "\n" +
-              "Carrera: " +
-              carrera_benef +
-              "\n" +
-              "\n" +
-              "Tipo: " +
-              type_benef +
-              "\n" +
-              "\n" +
-              "Año: " +
-              anio
-          );
+          //delay para que se envie el correo (el servidor de correos no soporta conexiones concurrentes)
+          setTimeout(async () => {
+            await UseNotification(
+              email_funcionario,
+              "Nueva Solicitud Plataforma Beca Hijo de funcionario",
+              "Se ha ingresado una solicitud para la plataforma Beca Hijo de funcionario" +
+                "\n" +
+                "\n" +
+                "Beneficiado: " +
+                name_benef +
+                "\n" +
+                "\n" +
+                "Rut Beneficiado: " +
+                formatoRut(rut_benef) +
+                "\n" +
+                "\n" +
+                "Carrera: " +
+                carrera_benef +
+                "\n" +
+                "\n" +
+                "Tipo: " +
+                type_benef +
+                "\n" +
+                "\n" +
+                "Año: " +
+                anio
+            );
+          }, 200);
+
           router.push({ pathname: "/panel", query: { ok: true } });
         } else if (
           submitSolicitud.mensaje ===

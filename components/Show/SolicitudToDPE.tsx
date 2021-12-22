@@ -64,9 +64,17 @@ const SolicitudToDPE = ({ id }: any) => {
                 .then(async (res) => {
                   const cobranzaUsers = await getUsersCobranza();
                   if (cobranzaUsers.length > 0) {
+                    let emailsCobranza = "";
+                    await cobranzaUsers.map((item: any) => {
+                      emailsCobranza += item.email + ",";
+                      return true;
+                    });
+                    emailsCobranza = emailsCobranza.substring(
+                      0,
+                      emailsCobranza.length - 1
+                    );
                     await UseNotification(
-                      //Se esta enviando solo al primer usuario por ahora
-                      cobranzaUsers[0].email,
+                      emailsCobranza,
                       "Nueva Solicitud Plataforma Beca Hijo de funcionario [Cobranzas]",
                       "Se ha recibido una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
                     );
