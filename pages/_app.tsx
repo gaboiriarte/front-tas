@@ -8,11 +8,19 @@ import Head from "next/head"; //head html
 import Script from "next/script";
 import { CustomProvider } from "rsuite";
 import esES from "rsuite/locales/es_ES";
+import UseNotification from '../hooks/useNotification';
 
 //falta la importacion del navbar
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  // React.useEffect(() => {
+  //   const enviarNotificacion = async () => {
+  //     await UseNotification('brsmilanez@gmail.com', 'Prueba de notificacion', 'Esto es una prueba de notificacion');
+  //   }
+  //   enviarNotificacion();
+  // },[]);
+
   return (
     <>
       <Head>

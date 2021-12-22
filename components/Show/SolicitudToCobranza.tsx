@@ -12,6 +12,9 @@ import changeStatusSolicitudCobranza from "../../hooks/usePostChangeStatusSolici
 import AprobarCobranza from "../Forms/AprobarCobranza";
 import RechazarCobranza from "../Forms/RechazarCobranza";
 import { ToastContainer, toast } from "react-toastify";
+import getUsersCobranza from "../../hooks/useGetUserCobranza";
+import getUsersDGE from "../../hooks/useGetUserDGE";
+import UseNotification from "../../hooks/useNotification";
 
 const SolicitudToCobranza = ({ id }: any) => {
   const [data, setData]: any = useState({});
@@ -67,7 +70,6 @@ const SolicitudToCobranza = ({ id }: any) => {
           },
           allowOutsideClick: () => !MySwal.isLoading(),
         }).then((result) => {
-          console.log(result);
           if (!result.isConfirmed) {
             return;
           } else if (result.value.mensaje === "cambio con exito") {
@@ -78,7 +80,21 @@ const SolicitudToCobranza = ({ id }: any) => {
               didOpen: () => {
                 Swal.showLoading();
               },
-            }).then((result) => {
+            }).then(async (result) => {
+              const dgeUsers = await getUsersDGE();
+              if (dgeUsers.length > 0) {
+                let emailsDGE = "";
+                await dgeUsers.map((item: any) => {
+                  emailsDGE += item.email + ",";
+                  return true;
+                });
+                emailsDGE = emailsDGE.substring(0, emailsDGE.length - 1);
+                await UseNotification(
+                  emailsDGE,
+                  "Nueva Solicitud Plataforma Beca Hijo de funcionario [DGE]",
+                  "Se ha recibido una nueva solicitud para la plataforma Beca Hijo de funcionario, ingrese a la plataforma para ver los detalles."
+                );
+              }
               /* Read more about handling dismissals below */
               if (result.dismiss === Swal.DismissReason.timer) {
                 router.back();
@@ -158,7 +174,8 @@ const SolicitudToCobranza = ({ id }: any) => {
                     <span className="font-weight-bold">{data.user.email}</span>
                   </List.Item>
                   <List.Item>
-                    Fono: <pre style={{ display: "inline" }}>&#09;&#09;</pre>
+                    Teléfono:{" "}
+                    <pre style={{ display: "inline" }}>&#09;&#09;</pre>
                     <span className="font-weight-bold">
                       {data.user.telefono}
                     </span>
@@ -166,6 +183,13 @@ const SolicitudToCobranza = ({ id }: any) => {
                   <List.Item>
                     Departamento: <pre style={{ display: "inline" }}>&#09;</pre>
                     <span className="font-weight-bold">{data.user.depto}</span>
+                  </List.Item>
+                  <List.Item>
+                    Estamento: <pre style={{ display: "inline" }}>&#09;</pre>
+                    <span className="font-weight-bold">
+                      {data.tipo_estamento.charAt(0).toUpperCase() +
+                        data.tipo_estamento.slice(1)}
+                    </span>
                   </List.Item>
                 </List>
               )}
