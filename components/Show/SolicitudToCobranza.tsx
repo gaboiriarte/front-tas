@@ -174,7 +174,8 @@ const SolicitudToCobranza = ({ id }: any) => {
                     <span className="font-weight-bold">{data.user.email}</span>
                   </List.Item>
                   <List.Item>
-                    Teléfono: <pre style={{ display: "inline" }}>&#09;&#09;</pre>
+                    Teléfono:{" "}
+                    <pre style={{ display: "inline" }}>&#09;&#09;</pre>
                     <span className="font-weight-bold">
                       {data.user.telefono}
                     </span>
@@ -182,6 +183,13 @@ const SolicitudToCobranza = ({ id }: any) => {
                   <List.Item>
                     Departamento: <pre style={{ display: "inline" }}>&#09;</pre>
                     <span className="font-weight-bold">{data.user.depto}</span>
+                  </List.Item>
+                  <List.Item>
+                    Estamento: <pre style={{ display: "inline" }}>&#09;</pre>
+                    <span className="font-weight-bold">
+                      {data.tipo_estamento.charAt(0).toUpperCase() +
+                        data.tipo_estamento.slice(1)}
+                    </span>
                   </List.Item>
                 </List>
               )}
