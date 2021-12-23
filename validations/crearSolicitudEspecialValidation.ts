@@ -41,7 +41,7 @@ export default function crearSolicitudValidationEspecial(
   }
 
   if (!values.anio) {
-    errores.anio = "El periodo de matricula es requerido";
+    errores.anio = "El periodo de matrícula es requerido";
   }
 
   if (values.documentacion?.length === 0) {

@@ -79,7 +79,7 @@ const Cobranza = () => {
             </div>
             <div className="card-body">
               <p className="card-text">
-                Permite revisar solicitudes aprobadas por dirección de personas
+                Permite revisar solicitudes aprobadas por Dirección de Personas
               </p>
 
               <a

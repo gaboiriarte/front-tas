@@ -349,7 +349,7 @@ const CrearSolicitud = () => {
                     Información adicional sobre la solicitud
                   </label>
                   <textarea
-                    placeholder="Agregue información adicional para personal del departamento de personas o cobranzas"
+                    placeholder="Agregue información adicional para personal del Departamento de Personas o Cobranzas"
                     onChange={handleChange}
                     onBlur={handlerBlur}
                     className="form-control"

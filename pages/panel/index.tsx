@@ -55,7 +55,7 @@ const Dashboard = () => {
               rolUser={rolUser}
               nameUser={nameUser}
               title="Sistema de gestión beca hijo de funcionario"
-              divider="Menú funcionario"
+              divider="Menú Funcionario"
             ></Header>
             {rolUser == "administrador" && <Admin />}
             {rolUser == "funcionario" && <Funcionario />}

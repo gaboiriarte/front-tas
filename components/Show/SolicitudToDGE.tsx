@@ -50,7 +50,7 @@ const SolicitudToDGE = ({ id }: any) => {
               //@ts-ignore
               document.getElementById("comentario_dge")?.value;
             if (comentario_dge === "") {
-              MySwal.showValidationMessage("Debe ingresar algun comentario");
+              MySwal.showValidationMessage("Debe ingresar algún comentario");
             } else {
               return changeStatusSolicitudDGE(id, "2", comentario_dge);
             }
@@ -327,7 +327,7 @@ const SolicitudToDGE = ({ id }: any) => {
               )}
             </div>
             <div className="card-header">
-              <p className="mx-5">Revisión dirección general estudiantil</p>
+              <p className="mx-5">Revisión Dirección General Estudiantil</p>
             </div>
             <div className="card-body">
               <div className="row mb-3">
