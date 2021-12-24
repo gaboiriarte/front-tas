@@ -24,7 +24,7 @@ const MiSolicitudesTable = () => {
   const [activePage, setActivePage] = React.useState(1);
   const [total, setTotal] = React.useState(0);
   const MySwal = withReactContent(Swal);
-  const PDF = dynamic(import('../Certificate/DocuPDF.jsx'),{ssr:false});
+  const PDF = dynamic(import("../Certificate/DocuPDF.jsx"), { ssr: false });
 
   const modalDelete = (idSolicitud: String) => {
     MySwal.fire({
@@ -62,6 +62,10 @@ const MiSolicitudesTable = () => {
         setIsLoged(true);
       } else if (peticion.message) {
         router.push("/");
+      } else if (typeof peticion.data === "object") {
+        setData(Object.values(peticion.data));
+        setTotal(peticion.total);
+        setIsLoged(true);
       }
     }
     llenarTabla();
@@ -218,30 +222,39 @@ const MiSolicitudesTable = () => {
                           speaker={
                             <Popover title="Descargar Comprobante"></Popover>
                           }
-                        > 
-                          
-                          <PDFDownloadLink 
-                            document={<PDF 
-                                      nombre={solicitud.name_benef} 
-                                      rut={solicitud.rut_benef} 
-                                      carrera={solicitud.carrera_benef} 
-                                      anio={solicitud.periodo.anio} 
-                                      fechaSolicitud={`${new Date(solicitud.created_at).getDate()}/${new Date(solicitud.created_at).getMonth()}/${new Date(solicitud.created_at).getFullYear()}`} 
-                                      numeroSolicitud={solicitud.id}/>} fileName={`BHF${solicitud.id}_${solicitud.name_benef}.pdf`}>
-                          <IconButton
-                            className="mx-1"
-                            icon={
-                              <FontAwesomeIcon
-                                color="white"
-                                icon={faDownload}
+                        >
+                          <PDFDownloadLink
+                            document={
+                              <PDF
+                                nombre={solicitud.name_benef}
+                                rut={solicitud.rut_benef}
+                                carrera={solicitud.carrera_benef}
+                                anio={solicitud.periodo.anio}
+                                fechaSolicitud={`${new Date(
+                                  solicitud.created_at
+                                ).getDate()}/${new Date(
+                                  solicitud.created_at
+                                ).getMonth()}/${new Date(
+                                  solicitud.created_at
+                                ).getFullYear()}`}
+                                numeroSolicitud={solicitud.id}
                               />
                             }
-                            style={{ backgroundColor: "#009a44" }}
-                            color="blue"
-                            circle
-                          />
+                            fileName={`BHF${solicitud.id}_${solicitud.name_benef}.pdf`}
+                          >
+                            <IconButton
+                              className="mx-1"
+                              icon={
+                                <FontAwesomeIcon
+                                  color="white"
+                                  icon={faDownload}
+                                />
+                              }
+                              style={{ backgroundColor: "#009a44" }}
+                              color="blue"
+                              circle
+                            />
                           </PDFDownloadLink>
-                          
                         </Whisper>
                       ) : null}
                     </th>
@@ -281,6 +294,5 @@ const MiSolicitudesTable = () => {
     </>
   );
 };
-
 
 export default MiSolicitudesTable;
