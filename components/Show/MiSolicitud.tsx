@@ -249,7 +249,7 @@ const DetallesSolicitudAuth = ({ id }: any) => {
                   )}
                   {data.comentario_dpe && (
                     <List.Item>
-                      Comentarios Dirección de personas:{" "}
+                      Comentarios Dirección de Personas:{" "}
                       <pre style={{ display: "inline" }}>&#09;</pre>
                       <span className="font-weight-bold">
                         {data.comentario_dpe}
@@ -267,7 +267,7 @@ const DetallesSolicitudAuth = ({ id }: any) => {
                   )}
                   {data.comentario_dge && (
                     <List.Item>
-                      Comentarios Dirección general estudiantil:{" "}
+                      Comentarios Dirección General Estudiantil:{" "}
                       <pre style={{ display: "inline" }}></pre>
                       <span className="font-weight-bold">
                         {data.comentario_dge}
