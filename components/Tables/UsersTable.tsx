@@ -77,6 +77,10 @@ const UsersTable = () => {
         setIsLoged(true);
       } else if (peticion.message) {
         router.push("/");
+      } else if (typeof peticion.data === "object") {
+        setData(Object.values(peticion.data));
+        setTotal(peticion.total);
+        setIsLoged(true);
       }
     }
     llenarTabla();
@@ -167,7 +171,7 @@ const UsersTable = () => {
           first
           size="lg"
           total={total}
-          limit={10}
+          limit={5}
           maxButtons={4}
           activePage={activePage}
           onChangePage={setActivePage}

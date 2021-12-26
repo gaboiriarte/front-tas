@@ -79,7 +79,7 @@ const DGE = () => {
             </div>
             <div className="card-body">
               <p className="card-text">
-                Permite revisar solicitudes aprobadas por cobranza
+                Permite revisar solicitudes aprobadas por Cobranzas
               </p>
 
               <a

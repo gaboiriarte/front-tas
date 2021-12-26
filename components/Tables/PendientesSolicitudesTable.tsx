@@ -31,6 +31,10 @@ const PendientesSolicitudesTable = () => {
         setIsLoged(true);
       } else if (peticion.message) {
         router.push("/");
+      } else if (typeof peticion.data === "object") {
+        setData(Object.values(peticion.data));
+        setTotal(peticion.total);
+        setIsLoged(true);
       }
     }
     llenarTabla();
@@ -54,7 +58,7 @@ const PendientesSolicitudesTable = () => {
               <tbody>
                 <tr>
                   <th colSpan={4} className="text-center">
-                    Sin solicitudes pendientes Departamento de Personas
+                    Sin solicitudes pendientes
                   </th>
                 </tr>
               </tbody>
