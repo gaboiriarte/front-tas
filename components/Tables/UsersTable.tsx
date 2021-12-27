@@ -68,7 +68,7 @@ const UsersTable = () => {
     setIsLoged(false);
     async function llenarTabla() {
       const peticion = await getUsers(activePage);
-      console.log(peticion.data);
+      console.log(peticion);
       if (peticion === "error conexion") {
         router.push("/");
       } else if (Array.isArray(peticion.data)) {
@@ -77,6 +77,10 @@ const UsersTable = () => {
         setIsLoged(true);
       } else if (peticion.message) {
         router.push("/");
+      } else if (typeof peticion.data === "object") {
+        setData(Object.values(peticion.data));
+        setTotal(peticion.total);
+        setIsLoged(true);
       }
     }
     llenarTabla();
@@ -167,7 +171,7 @@ const UsersTable = () => {
           first
           size="lg"
           total={total}
-          limit={10}
+          limit={5}
           maxButtons={4}
           activePage={activePage}
           onChangePage={setActivePage}

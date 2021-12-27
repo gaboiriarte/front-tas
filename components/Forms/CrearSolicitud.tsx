@@ -92,7 +92,7 @@ const CrearSolicitud = () => {
                 "Su solicitud se ha creado con éxito, en la plataforma podrá revisar el estado de su solicitud."
               );
             }
-          }, 200);
+          }, 1000);
 
           router.push({ pathname: "/panel", query: { ok: true } });
         } else if (
@@ -349,7 +349,7 @@ const CrearSolicitud = () => {
                     Información adicional sobre la solicitud
                   </label>
                   <textarea
-                    placeholder="Agregue información adicional para personal del departamento de personas o cobranzas"
+                    placeholder="Agregue información adicional para personal del Departamento de Personas o Cobranzas"
                     onChange={handleChange}
                     onBlur={handlerBlur}
                     className="form-control"

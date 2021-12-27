@@ -11,14 +11,14 @@ const ModificarRol = () => {
           <div className="row mb-3">
             <div className="col-12 col-sm-12 mb-3">
               <label className="form-label" htmlFor="form6Example1">
-                Seleccione Nuevo Rol
+                Seleccione nuevo Rol
               </label>
               <select id="rol" name="rol" className="form-control">
                 <option value="funcionario">Funcionario</option>
-                <option value="dpe">Encargado dirección de personas</option>
-                <option value="cobranza">Encargado cobranzas</option>
+                <option value="dpe">Encargado Dirección de Personas</option>
+                <option value="cobranza">Encargado Cobranzas</option>
                 <option value="dge">
-                  Encargado dirección general estudiantil
+                  Encargado Dirección General Estudiantil
                 </option>
               </select>
             </div>

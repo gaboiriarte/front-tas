@@ -50,7 +50,7 @@ const SolicitudToDGE = ({ id }: any) => {
               //@ts-ignore
               document.getElementById("comentario_dge")?.value;
             if (comentario_dge === "") {
-              MySwal.showValidationMessage("Debe ingresar algun comentario");
+              MySwal.showValidationMessage("Debe ingresar algún comentario");
             } else {
               return changeStatusSolicitudDGE(id, "2", comentario_dge);
             }
@@ -196,8 +196,7 @@ const SolicitudToDGE = ({ id }: any) => {
                     <span className="font-weight-bold">{data.user.email}</span>
                   </List.Item>
                   <List.Item>
-                    Teléfono:{" "}
-                    <pre style={{ display: "inline" }}>&#09;&#09;</pre>
+                    Teléfono: <pre style={{ display: "inline" }}>&#09;</pre>
                     <span className="font-weight-bold">
                       {data.user.telefono}
                     </span>
@@ -235,6 +234,13 @@ const SolicitudToDGE = ({ id }: any) => {
                     Rut Estudiante:{" "}
                     <pre style={{ display: "inline" }}>&#09;&#09;</pre>
                     <span className="font-weight-bold">{data.rut_benef}</span>
+                  </List.Item>
+                  <List.Item>
+                    Estado Curricular:{" "}
+                    <pre style={{ display: "inline" }}>&#09;</pre>
+                    <span className="font-weight-bold">
+                      {data.estado_curricular}
+                    </span>
                   </List.Item>
                   <List.Item>
                     Fecha de creación:{" "}
@@ -327,7 +333,7 @@ const SolicitudToDGE = ({ id }: any) => {
               )}
             </div>
             <div className="card-header">
-              <p className="mx-5">Revisión dirección general estudiantil</p>
+              <p className="mx-5">Revisión Dirección General Estudiantil</p>
             </div>
             <div className="card-body">
               <div className="row mb-3">

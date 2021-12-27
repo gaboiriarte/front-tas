@@ -44,7 +44,7 @@ const CrearSolicitudEspecial = () => {
   const fetchSolicitudApi = async () => {
     MySwal.fire({
       title: "¿Enviar solicitud?",
-      text: "Una vez enviada pasará a revisión cobranza",
+      text: "Una vez enviada pasará a revisión Cobranza",
       icon: "info",
       showCancelButton: true,
       cancelButtonText: "Cancelar",
@@ -114,7 +114,7 @@ const CrearSolicitudEspecial = () => {
                 "Año: " +
                 anio
             );
-          }, 200);
+          }, 1000);
 
           router.push({ pathname: "/panel", query: { ok: true } });
         } else if (
@@ -541,7 +541,7 @@ const CrearSolicitudEspecial = () => {
                     Comentarios adicionales para departamento de cobranza
                   </label>
                   <textarea
-                    placeholder="Agregue información adicional para cobranzas"
+                    placeholder="Agregue información adicional para Cobranzas"
                     onChange={handleChange}
                     onBlur={handlerBlur}
                     className="form-control"

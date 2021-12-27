@@ -21,7 +21,7 @@ const NuevasSolicitudesCobranza = () => {
     setIsLoged(false);
     async function llenarTabla() {
       const peticion = await LoadSolicitudesCobranza(activePage);
-      console.log(peticion.data);
+
       if (peticion === "error conexion") {
         router.push("/");
       } else if (Array.isArray(peticion.data)) {
@@ -30,9 +30,14 @@ const NuevasSolicitudesCobranza = () => {
         setIsLoged(true);
       } else if (peticion.message) {
         router.push("/");
+      } else if (typeof peticion.data === "object") {
+        setData(Object.values(peticion.data));
+        setTotal(peticion.total);
+        setIsLoged(true);
       }
     }
     llenarTabla();
+    console.log(data);
   }, [activePage]);
 
   return (
