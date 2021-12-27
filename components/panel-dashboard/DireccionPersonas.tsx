@@ -75,7 +75,7 @@ const DireccionPersonas = () => {
                 icon={faFileUpload}
                 size="2x"
               />
-              <p>Nueva solicitud especial</p>
+              <p>Nueva solicitud a un tercero</p>
             </div>
             <div className="card-body">
               <p className="card-text">
